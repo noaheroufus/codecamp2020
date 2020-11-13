@@ -3,8 +3,8 @@ from graphics import Graphics
 from graphic import Graphic
 from object import Object
 from canvas import Canvas
-
-EVENT_PLAYER_MOVE_RIGHT = pygame.USEREVENT + 1
+from player import Player
+from event import Event
 
 class Game:
     screen_size = screen_width, screen_height = 320, 240
@@ -55,11 +55,17 @@ class Game:
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
         if keys[pygame.K_RIGHT]:
-            pygame.event.post(pygame.event.Event(EVENT_PLAYER_MOVE_RIGHT, {}))
+            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_RIGHT, {}))
+        if keys[pygame.K_DOWN]:
+            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_DOWN, {}))
+        if keys[pygame.K_LEFT]:
+            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_LEFT, {}))
+        if keys[pygame.K_UP]:
+            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_UP, {}))
 
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-            if event.type == EVENT_PLAYER_MOVE_RIGHT:
-                self.player.set_velocity(1, 1)
+            
+            self.player.handle_event(event)
