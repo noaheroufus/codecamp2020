@@ -1,7 +1,8 @@
 class State:
-    STATE_GAME_MENU = 1
-    STATE_GAME_PLAY = 2
-    STATE_GAME_OVER = 3
+    STATE_GAME_MENU = 0
+    STATE_GAME_OVER = 1
+    STATE_GAME_BATTLE = 2
+    STATE_GAME_CLIMB = 3
 
     state = 0
 
