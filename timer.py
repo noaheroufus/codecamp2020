@@ -1,5 +1,8 @@
+import pygame
+from event import Event
+
 class Timer:
-    def __init__(self, speed=1, max=10):
+    def __init__(self, speed=1, max=32):
         self.timer = 0
         self.subtimer = 0
         self.speed = speed
@@ -13,3 +16,4 @@ class Timer:
             self.subtimer = 0
         if self.timer >= self.max:
             self.timer = 0
+            pygame.event.post(pygame.event.Event(Event.EVENT_TIMER_AT_0, {}))
