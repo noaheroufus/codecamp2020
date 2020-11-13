@@ -11,6 +11,7 @@ class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode(self.screenSize)
+        pygame.display.set_caption("InfoWest Tower Security")
         self.graphics = Graphics()
         player = Object(self, (self.screenWidth/2, self.screenHeight/2), (32,32), self.graphics.player)
         self.objects.append(player)
