@@ -4,6 +4,8 @@ from graphic import Graphic
 from object import Object
 from canvas import Canvas
 
+EVENT_PLAYER_MOVE_RIGHT = pygame.USEREVENT + 1
+
 class Game:
     screen_size = screen_width, screen_height = 320, 240
     screen_scale = 2
@@ -21,7 +23,10 @@ class Game:
         self.clock = pygame.time.Clock()
         self.graphics = Graphics()
         self.canvas = Canvas(self)
-        self.objects.append(Object(self, (self.screen_width/2, self.screen_height/2), (32,32), Graphic([self.graphics.player_idle],[0]))) # Player
+
+        self.player = Object(self, (self.screen_width/2, self.screen_height/2), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[1000, 1000, 1000]))
+
+        self.objects.append(self.player)
 
     def update(self):
         self.clock.tick(self.tps)
@@ -48,8 +53,12 @@ class Game:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
+        if keys[pygame.K_RIGHT]:
+            pygame.event.post(pygame.event.Event(EVENT_PLAYER_MOVE_RIGHT, {}))
 
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+            if event.type == EVENT_PLAYER_MOVE_RIGHT:
+                self.player.set_velocity(1, 1)
