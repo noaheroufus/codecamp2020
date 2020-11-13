@@ -1,16 +1,8 @@
-import sys, pygame
-pygame.init()
+from game import game
 
-screenSize = screenWidth, screenHeight = 320, 240
-screen = pygame.display.set_mode(screenSize)
-black = (0, 0, 0)
+def main():
+    g = game()
+    g.loop()
 
-playing = True
-
-while playing:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-
-    screen.fill(black)
-    pygame.display.flip()
+if __name__ == "__main__":
+    main()
