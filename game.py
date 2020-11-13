@@ -24,7 +24,7 @@ class Game:
         self.graphics = Graphics()
         self.canvas = Canvas(self)
 
-        self.player = Object(self, (self.screen_width/2, self.screen_height/2), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[1000, 1000, 1000]))
+        self.player = Object(self, (self.screen_width/2, self.screen_height/2), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[10, 10, 10]))
 
         self.objects.append(self.player)
 
