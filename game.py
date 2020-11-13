@@ -38,3 +38,13 @@ class Game:
             self.render()
         
         sys.exit()
+        
+    def handle_inputs(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_ESCAPE]:
+            pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
+
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
