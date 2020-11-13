@@ -2,18 +2,23 @@ import sys,pygame
 from graphics import Graphics
 from graphic import Graphic
 from object import Object
+from canvas import Canvas
 
 class Game:
-    screenSize = screenWidth, screenHeight = 320, 240
-    screen = 0
+    screen_size = screen_width, screen_height = 320, 240
+    screen_scale = 2
+    screen = False
+    canvas = False
     running = False
     objects = []
 
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(self.screenSize)
+        self.screen = pygame.display.set_mode((self.screen_width*self.screen_scale, self.screen_height*self.screen_scale))
+        pygame.display.set_caption("InfoWest Tower Security")
         self.graphics = Graphics()
-        self.objects.append(Object(self, (self.screenWidth/2, self.screenHeight/2), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[1000, 1000, 1000]))) # Player
+        self.canvas = Canvas(self)
+        self.objects.append(Object(self, (self.screen_width/2, self.screen_height/2), (32,32), Graphic([self.graphics.player_idle],[0]))) # Player
 
     def update(self):
         self.handle_inputs()
@@ -23,11 +28,7 @@ class Game:
             obj.update()
     
     def render(self):
-        self.screen.fill((100,100,100))
-        
-        for obj in self.objects:
-            obj.render()
-      
+        self.canvas.render(self.objects)
         pygame.display.flip()
 
     def loop(self):
@@ -37,7 +38,7 @@ class Game:
             self.render()
         
         sys.exit()
-
+        
     def handle_inputs(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
