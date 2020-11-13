@@ -12,6 +12,5 @@ This is a game that has **No End**, Only a Beginning.
 
 
 
-##### Created By: Noah, Keith, Brandon, Brock
-##### Code Camp Competition 2020
+###### Created By: Noah, Keith, Brandon, Brock
 
