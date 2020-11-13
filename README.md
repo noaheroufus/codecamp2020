@@ -4,8 +4,8 @@
 
 
 #### *(Controls)*
-  **Up Arrow -**
-  **Right Arrow -** 
-  **Left Arrow -**
-  **Down Arrow -**
+***Right Arrow -** Sends you Flying South-East
+***Left Arrow -**
+-**Up Arrow -**
+-**Down Arrow -**
 
