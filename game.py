@@ -35,8 +35,11 @@ class Game:
         self.handle_inputs()
         self.handle_events()
         
-        for obj in self.objects:
-            obj.update()
+        if self.state.get_state() == State.STATE_GAME_PLAY:
+            for obj in self.game_objects:
+                obj.update()
+        if self.player.get_health() == 0:
+            self.state.set_state(State.STATE_GAME_OVER)
     
     def render(self):
         self.canvas.render(self.objects)
