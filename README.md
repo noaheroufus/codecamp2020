@@ -12,7 +12,7 @@ Every climb to the next level intells more than the last. Don't miss the Pacakge
   ###### *(Packages)*
   This is the in-game currency, you can use it at the Upgrade Stations!
   ###### *(Upgrade Station)*
-  Here you can purchase
+  Here you can purchase various different items to progress you further into the        game!
 
 ##### (Boss Fight)
 Level 5, Level 10, Level 15, Level 20, Level 25, etc. Each of those level are boss levels! No boss is easier than the one before it! If you defeat the boss, the boss will reward you with its belongings! 
