@@ -1,4 +1,5 @@
 import sys,pygame
+from graphics import Graphics
 
 class Game:
     screenSize = screenWidth, screenHeight = 320, 240
@@ -8,6 +9,7 @@ class Game:
     def __init__(self):
         self.screen = pygame.display.set_mode(self.screenSize)
         pygame.init()
+        self.graphics = Graphics()
 
     def update(self):
         for event in pygame.event.get():
@@ -16,6 +18,7 @@ class Game:
     
     def render(self):
         self.screen.fill((0,0,0))
+        self.screen.blit(self.graphics.player, (self.screenWidth/2, self.screenHeight/2))
         pygame.display.flip()
 
     def loop(self):
