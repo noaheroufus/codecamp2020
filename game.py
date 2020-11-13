@@ -6,6 +6,7 @@ from canvas import Canvas
 from player import Player
 from event import Event
 from state import State
+from timer import Timer
 
 class Game:
     screen_size = screen_width, screen_height = 320, 240
@@ -33,11 +34,11 @@ class Game:
         self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
 
-        #self.timer = Timer()
+        self.timer = Timer()
 
     def update(self):
         self.clock.tick(self.tps)
-        #self.timer.tick()
+        self.timer.tick()
 
         self.handle_inputs()
         self.handle_events()
