@@ -55,6 +55,12 @@ class Game:
             pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
         if keys[pygame.K_RIGHT]:
             pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_RIGHT, {}))
+        if keys[pygame.K_DOWN]:
+            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_DOWN, {}))
+        if keys[pygame.K_LEFT]:
+            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_LEFT, {}))
+        if keys[pygame.K_UP]:
+            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_UP, {}))
 
     def handle_events(self):
         for event in pygame.event.get():
