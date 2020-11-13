@@ -2,6 +2,10 @@ from object import Object
 from event import Event
 
 class Player(Object):
+
+    health = 100
+    armour = 100
+
     def __init__(self, game, position, size, graphic=False):
         super().__init__(game, position, size, graphic)
 
@@ -20,3 +24,27 @@ class Player(Object):
             self.set_velocity(-1, 0)
         if event.type == Event.EVENT_PLAYER_MOVE_UP:
             self.set_velocity(0, -1)
+            
+    def get_health(self):
+        return self.health
+
+    def set_health(self, health):
+        if health > 100:
+            self.health = 100
+        elif health < 0:
+            self.health = 0
+        else:
+            self.health = health
+
+    def get_armour(self):
+        return self.armour
+
+    def set_armour(self, armour):
+        if armour > 100:
+            self.armour = 100
+        elif armour < 0:
+            self.armour = 0
+        else:
+            self.armour = armour
+
+
