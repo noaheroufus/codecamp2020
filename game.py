@@ -17,7 +17,7 @@ class Game:
                 self.running = False
     
     def render(self):
-        self.screen.fill((0,0,0))
+        self.screen.fill((100,100,100))
         self.screen.blit(self.graphics.player, (self.screenWidth/2, self.screenHeight/2))
         pygame.display.flip()
 
