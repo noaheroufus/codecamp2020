@@ -1,5 +1,6 @@
 import sys,pygame
 from graphics import Graphics
+from object import Object
 
 class Game:
     screenSize = screenWidth, screenHeight = 320, 240
