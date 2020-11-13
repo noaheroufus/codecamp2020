@@ -1,11 +1,11 @@
 # InfoWest Tower Security
 #### *(Summary)*
-  This is a game that has **No End**, Only a Beginning.
+This is a game that has **No End**, Only a Beginning.
 
 
 #### *(Controls)*
-***Right Arrow -** Sends you Flying South-East
-***Left Arrow -**
--**Up Arrow -**
--**Down Arrow -**
+* **Right Arrow -** Sends you Flying South-East
+* **Left Arrow -**
+* **Up Arrow -**
+* **Down Arrow -**
 
