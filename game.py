@@ -24,7 +24,7 @@ class Game:
             obj.update()
     
     def render(self):
-        self.screen.fill((0,0,0))
+        self.screen.fill((100,100,100))
         
         for obj in self.objects:
             obj.render()
