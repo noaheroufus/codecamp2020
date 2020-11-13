@@ -1,6 +1,6 @@
 import sys,pygame
 
-class game:
+class Game:
     screenSize = screenWidth, screenHeight = 320, 240
     screen = 0
     running = False
