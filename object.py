@@ -4,7 +4,7 @@ class Object:
     game = False
     size = (0, 0)
     position = (0, 0)
-    velocity = (0, 0)
+    velocity = [0, 0]
     graphic = False
 
     def __init__(self, game, position, size, graphic=False):
@@ -14,7 +14,11 @@ class Object:
         self.graphic = graphic
 
     def set_velocity(self, x, y):
-        self.velocity = (x, y)
+        self.velocity = [x, y]
+    def set_velocity_x(self, x):
+        self.velocity[0] = x
+    def set_velocity_y(self, y):
+        self.velocity[1] = y
 
     def update(self):
         self.position = (
