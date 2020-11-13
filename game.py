@@ -13,7 +13,7 @@ class Game:
         pygame.init()
         self.screen = pygame.display.set_mode(self.screenSize)
         self.graphics = Graphics()
-        self.objects.append(Object(self, (self.screenWidth/2, self.screenHeight/2), (32,32), Graphic([self.graphics.player_idle],[0]))) # Player
+        self.objects.append(Object(self, (self.screenWidth/2, self.screenHeight/2), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[1000, 1000, 1000]))) # Player
 
     def update(self):
         for event in pygame.event.get():
