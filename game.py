@@ -16,9 +16,8 @@ class Game:
         self.objects.append(Object(self, (self.screenWidth/2, self.screenHeight/2), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[1000, 1000, 1000]))) # Player
 
     def update(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.running = False
+        self.handle_inputs()
+        self.handle_events()
         
         for obj in self.objects:
             obj.update()
@@ -38,3 +37,13 @@ class Game:
             self.render()
         
         sys.exit()
+
+    def handle_inputs(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_ESCAPE]:
+            pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
+
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
