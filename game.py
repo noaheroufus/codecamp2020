@@ -1,5 +1,6 @@
 import sys,pygame
 from graphics import Graphics
+from graphic import Graphic
 from object import Object
 
 class Game:
@@ -12,8 +13,7 @@ class Game:
         pygame.init()
         self.screen = pygame.display.set_mode(self.screenSize)
         self.graphics = Graphics()
-        player = Object(self, (self.screenWidth/2, self.screenHeight/2), (32,32), self.graphics.player)
-        self.objects.append(player)
+        self.objects.append(Object(self, (self.screenWidth/2, self.screenHeight/2), (32,32), Graphic([self.graphics.player_idle],[0]))) # Player
 
     def update(self):
         for event in pygame.event.get():

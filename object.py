@@ -21,7 +21,7 @@ class Object:
     
     def render(self):
         if self.graphic:
-            self.game.screen.blit(self.graphic, self.position)
+            self.graphic.render(self.game.screen, self.position)
         else:
             pygame.draw.rect(self.game.screen, (255,255,255), pygame.Rect(
                 self.position[0], self.position[1],
