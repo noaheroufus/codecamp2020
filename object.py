@@ -13,6 +13,9 @@ class Object:
         self.size = size
         self.graphic = graphic
 
+    def set_velocity(self, x, y):
+        self.velocity = (x, y)
+
     def update(self):
         self.position = (
             self.position[0]+self.velocity[0],
