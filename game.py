@@ -10,9 +10,9 @@ from timer import Timer
 from action_timer import ActionTimer
 
 class Game:
-    screen_size = screen_width, screen_height = 320, 240
-    screen_scale = 2
     sprite_size = sprite_width, sprite_height = 32, 32
+    screen_size = screen_width, screen_height = 320, 224
+    screen_scale = 2
     screen = False
     canvas = False
     running = False
