@@ -9,11 +9,13 @@ class Timer:
         self.max = max
     def get_timer(self):
         return self.timer
+    def ready(self):
+        return (self.timer == self.max-1 and self.subtimer >= self.speed/2) or (self.timer == 0 and self.subtimer <= self.speed/2)
     def tick(self):
         self.subtimer += 1
         if self.subtimer >= self.speed:
             self.timer += 1
             self.subtimer = 0
-        if self.timer >= self.max:
+        if self.subtimer == 0 and self.timer >= self.max:
             self.timer = 0
             pygame.event.post(pygame.event.Event(Event.EVENT_TIMER_AT_0, {}))
