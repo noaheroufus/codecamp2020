@@ -6,7 +6,7 @@ Welcome to **InfoWest Tower Security**!
 * **Space Bar  -** Starts the Game
 * **ESC -** Quits the Game
 
-####(Summary)
+#### (Summary)
 This is a game that has *No End*, Only a Beginning...
 
 There are a multitude of challenges that you will endure on your adventure up the Tower, it will only be a matter of time before you rely on packages and upgrade stations for your survival. You are the only one who can take care of the threat, you are the only one who can protect the tower, You are **InfoWest Tower Security**!
