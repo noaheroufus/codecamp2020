@@ -48,6 +48,10 @@ class Game:
         self.title_screen = Object(self, (0,0), self.screen_size, Graphic([self.graphics.title_screen], [0]))
         self.background = Object(self, (0,0), self.screen_size, Graphic([self.graphics.background], [0]))
         self.player = Player(self, (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[10, 10, 10]))
+        self.heart = Object(self, (self.screen_width-18,2), (16,16), Graphic([self.graphics.heart_full], [0]))
+        self.heart_bar = Object(self, (self.screen_width-14,22), (8,38), color=(250,15,15))
+        self.armour = Object(self, (self.screen_width-18,64), (16,16), Graphic([self.graphics.armour], [0]))
+        self.armour_bar = Object(self, (self.screen_width-14,84), (8,38), color=(100,100,100))
         self.ladder = Ladder(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
         self.game_over = Object(self, (0,0), self.screen_size, Graphic([self.graphics.game_over], [0]))
         self.game_objects[State.STATE_GAME_MENU].append(self.title_screen)
@@ -61,8 +65,16 @@ class Game:
             self.game_objects[State.STATE_GAME_CLIMB].append(cloud)
 
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.heart)
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.heart_bar)
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.armour)
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.armour_bar)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
+        self.game_objects[State.STATE_GAME_BATTLE].append(self.heart_bar)
+        self.game_objects[State.STATE_GAME_BATTLE].append(self.heart)
+        self.game_objects[State.STATE_GAME_BATTLE].append(self.armour)
+        self.game_objects[State.STATE_GAME_BATTLE].append(self.armour_bar)
         self.game_objects[State.STATE_GAME_OVER].append(self.game_over)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.ladder)
 
@@ -88,26 +100,8 @@ class Game:
         self.handle_inputs()
         self.handle_events()
 
-        heartDiff = self.player.hearts - len(self.player_hearts)
-        heartCount = len(self.player_hearts)
-        if heartDiff > 0:
-            for i in range(heartDiff):
-                heart = Object(self, (self.screen_width-17,1+(16*(i+heartCount))), (16,16), Graphic([self.graphics.heart_full], [0]))
-                self.player_hearts.append(heart)
-                self.game_objects[State.STATE_GAME_CLIMB].append(heart)
-        if heartDiff < 0:
-            heartDiff*=-1
-            for i in range(heartDiff):
-                heart = self.player_hearts.pop()
-                self.game_objects[State.STATE_GAME_CLIMB].remove(heart)
-        hearts = round(math.ceil((self.player.health/20)/0.5)*0.5,2)
-        
-        for heart in self.player_hearts:
-            heart.graphic.graphics[0] = self.graphics.heart_full
-        
-        if hearts-math.floor(hearts)==0.5:
-            if len(self.player_hearts) > 0:
-                self.player_hearts[len(self.player_hearts)-1].graphic.graphics[0] = self.graphics.heart_half
+        self.heart_bar.size = (self.heart_bar.size[0], (self.player.health*38)/100)
+        self.armour_bar.size = (self.armour_bar.size[0], (self.player.armour*38)/100)
 
         self.floor_text.text = str(self.player.floor)
 
@@ -147,6 +141,10 @@ class Game:
             for e in self.turn_counter.enemies:
                 self.game_objects[State.STATE_GAME_BATTLE].append(e)
         if state == State.STATE_GAME_CLIMB:
+            if self.player.floor > 1:
+                self.background.graphic.graphics[0] = self.graphics.background_blank
+            else:
+                self.background.graphic.graphics[0] = self.graphics.background
             self.ladder.__init__(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
             self.player.set_health(100)
             self.player.previous_rung = (0,0)
