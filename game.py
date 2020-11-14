@@ -36,6 +36,10 @@ class Game:
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
         self.background = Object(self, (0,0), self.screen_size, Graphic([self.graphics.background], [0]))
+        self.game_objects.append(self.background)
+        self.game_objects.append(self.player)
+        self.title_screen = Object(self, (0,0), self.screen_size, Graphic([self.graphics.title_screen], [0]))
+        self.game_objects[State.STATE_GAME_MENU].append(self.title_screen)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
         timer_lengths = []
         for i in range(self.timer.max):
