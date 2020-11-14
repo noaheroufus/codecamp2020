@@ -7,7 +7,7 @@ class Object:
     velocity = [0, 0]
     graphic = False
 
-    def __init__(self, game, position, size=10, graphic=False):
+    def __init__(self, game, position, size=32, graphic=False):
         self.game = game
         self.position = position
         self.graphic = graphic
@@ -37,3 +37,6 @@ class Object:
             rect = pygame.Surface(self.size)
             rect.fill((255,255,255))
             self.game.canvas.surface.blit(rect, (0,0))
+
+    def colliding(self, other):
+        pass

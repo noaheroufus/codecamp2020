@@ -3,7 +3,6 @@ from object import Object
 from event import Event
 from inventory import Inventory
 from wrench import Wrench
-from graphics import Graphics
 from graphic import Graphic
 
 class Player(Object):
@@ -16,12 +15,14 @@ class Player(Object):
         self.hanging = False
 
         self.inventory = Inventory(100)
-        graphics = Graphics()
         self.inventory.add_item(Wrench(weight=10, graphic=Graphic([graphics.wrench], [0])))
+        
+        self.previous_rung = (int(position[0]/game.sprite_width), int(position[1]/game.sprite_height))
 
     def update(self):
         super().update()
         # if colliding with rung
+
 
     def render(self):
         super().render()
