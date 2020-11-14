@@ -1,5 +1,6 @@
 from object import Object
 import random
+from graphic import Graphic
 
 class Enemy(Object):
     def __init__(self, game, position, size, armour=100, health=100, graphic=False):
@@ -11,6 +12,7 @@ class Enemy(Object):
         self.choices = [self.attack, self.defend]
         self.weights = [0.9, 0.1]
         self.defending = False
+        self.armour_image = Graphic([self.game.graphics.enemy_armour], [0])
 
     def get_armour(self):
         if self.defending: armour = self.armour + 20
@@ -37,3 +39,8 @@ class Enemy(Object):
         else:
             self.health -= weight
             if self.health <= 0: self.alive = False
+
+    def render(self):
+        super().render()
+        if self.armour > 0:
+            self.armour_image.render(self.game.canvas.surface, self.position)
