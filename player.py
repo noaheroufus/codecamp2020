@@ -5,6 +5,7 @@ from inventory import Inventory
 from wrench import Wrench
 from battery import Battery
 from jammer import Jammer
+from dish import Dish
 from graphic import Graphic
 
 class Player(Object):
@@ -22,6 +23,7 @@ class Player(Object):
         self.inventory.add_item(Wrench(weight=10, graphic=Graphic([game.graphics.wrench], [0])))
         self.inventory.add_item(Battery(weight=10, graphic=Graphic([game.graphics.battery], [0])))
         self.inventory.add_item(Jammer(weight=10, graphic=Graphic([game.graphics.jammer], [0])))
+        self.inventory.add_item(Dish(weight=10, graphic=Graphic([game.graphics.dish], [0])))
         
         self.previous_rung = (0,0)
 
