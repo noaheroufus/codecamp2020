@@ -30,7 +30,7 @@ class Object:
         if self.graphic:
             self.graphic.render(self.game.canvas.surface, self.position)
         else:
-            pygame.draw.rect(self.game.screen, (255,255,255), pygame.Rect(
+            pygame.draw.rect(self.game.canvas.surface, (255,255,255), pygame.Rect(
                 self.position[0], self.position[1],
                 self.position[0]+self.size[0], self.position[1]+self.size[1],
             ))
