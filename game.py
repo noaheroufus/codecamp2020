@@ -36,8 +36,10 @@ class Game:
         self.title_screen = Object(self, (0,0), self.screen_size, Graphic([self.graphics.title_screen], [0]))
         self.background = Object(self, (0,0), self.screen_size, Graphic([self.graphics.background], [0]))
         self.player = Player(self, (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[10, 10, 10]))
+        self.ladder = Ladder(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
         self.game_objects[State.STATE_GAME_MENU].append(self.title_screen)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.background)
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.ladder)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
@@ -48,23 +50,18 @@ class Game:
         self.action_timer = ActionTimer(self, (0,0), self.sprite_size, Graphic([self.graphics.timer_face], [0]), Graphic([self.graphics.timer_needle_n, self.graphics.timer_needle_ne, self.graphics.timer_needle_e, self.graphics.timer_needle_se, self.graphics.timer_needle_s, self.graphics.timer_needle_sw, self.graphics.timer_needle_w, self.graphics.timer_needle_nw], timer_lengths))
         self.game_objects[State.STATE_GAME_CLIMB].append(self.action_timer)
 
-        self.ladder = Ladder(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
-        self.game_objects[State.STATE_GAME_CLIMB].append(self.ladder)
-        self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
-        self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
-
     def update(self):
         self.clock.tick(self.tps)
         self.timer.tick()
 
         self.handle_inputs()
         self.handle_events()
-        
+
         if self.player.get_health() == 0:
             self.state.set_state(State.STATE_GAME_OVER)
         for obj in self.game_objects[self.state.get_state()]:
             obj.update()
-    
+
     def render(self):
         self.canvas.render()
         pygame.display.flip()
@@ -74,14 +71,14 @@ class Game:
         while self.running:
             self.update()
             self.render()
-        
+
         sys.exit()
 
     def handle_inputs(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
-        
+
         if keys[pygame.K_RIGHT]:
             pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_RIGHT))
         if keys[pygame.K_DOWN]:
