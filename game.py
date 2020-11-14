@@ -1,4 +1,4 @@
-import sys,pygame
+import sys,pygame,random,math
 from graphics import Graphics
 from graphic import Graphic
 from object import Object
@@ -22,6 +22,7 @@ class Game:
     clock = False
     tps = 60
     game_objects = [[],[],[],[]]
+    player_hearts = []
 
     def __init__(self):
         pygame.init()
@@ -60,6 +61,27 @@ class Game:
 
         self.handle_inputs()
         self.handle_events()
+
+        heartDiff = self.player.hearts - len(self.player_hearts)
+        heartCount = len(self.player_hearts)
+        if heartDiff > 0:
+            for i in range(heartDiff):
+                heart = Object(self, (self.screen_width-17,1+(16*(i+heartCount))), (16,16), Graphic([self.graphics.heart_full], [0]))
+                self.player_hearts.append(heart)
+                self.game_objects[State.STATE_GAME_CLIMB].append(heart)
+        if heartDiff < 0:
+            heartDiff*=-1
+            for i in range(heartDiff):
+                heart = self.player_hearts.pop()
+                self.game_objects[State.STATE_GAME_CLIMB].remove(heart)
+        hearts = round(math.ceil((self.player.health/20)/0.5)*0.5,2)
+        
+        for heart in self.player_hearts:
+            heart.graphic.graphics[0] = self.graphics.heart_full
+        
+        if hearts-math.floor(hearts)==0.5:
+            if len(self.player_hearts) > 0:
+                self.player_hearts[len(self.player_hearts)-1].graphic.graphics[0] = self.graphics.heart_half
 
         for obj in self.game_objects[self.state.get_state()]:
             obj.update()
