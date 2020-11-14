@@ -118,17 +118,29 @@ class Player(Object):
         self.set_velocity(0, 1)
         self.hanging = False
     def jump_up(self):
-        self.graphic.graphics = [self.game.graphics.player_hang_jump]
-        self.graphic.times = [1]
-        self.set_velocity(0, -1)
-        self.hanging = False
+        pos = self.game.action_timer.needle.position
+        if pos == 0 or pos == 1 or pos == 7:
+            self.graphic.graphics = [self.game.graphics.player_hang_jump]
+            self.graphic.times = [1]
+            self.set_velocity(0, -1)
+            self.hanging = False
+        else:
+            self.jump_down()
     def jump_left(self):
-        self.graphic.graphics = [self.game.graphics.player_hang_jump_left]
-        self.graphic.times = [1]
-        self.set_velocity(-1, 0)
-        self.hanging = False
+        pos = self.game.action_timer.needle.position
+        if pos == 0 or pos == 1 or pos == 7:
+            self.graphic.graphics = [self.game.graphics.player_hang_jump_left]
+            self.graphic.times = [1]
+            self.set_velocity(-1, 0)
+            self.hanging = False
+        else:
+            self.jump_down()
     def jump_right(self):
-        self.graphic.graphics = [self.game.graphics.player_hang_jump_right]
-        self.graphic.times = [1]
-        self.set_velocity(1, 0)
-        self.hanging = False
+        pos = self.game.action_timer.needle.position
+        if pos == 0 or pos == 1 or pos == 7:
+            self.graphic.graphics = [self.game.graphics.player_hang_jump_right]
+            self.graphic.times = [1]
+            self.set_velocity(1, 0)
+            self.hanging = False
+        else:
+            self.jump_down()
