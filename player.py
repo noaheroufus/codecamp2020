@@ -15,7 +15,7 @@ class Player(Object):
         self.hanging = False
 
         self.inventory = Inventory(100)
-        self.inventory.add_item(Wrench(weight=10, graphic=Graphic([graphics.wrench], [0])))
+        self.inventory.add_item(Wrench(weight=10, graphic=Graphic([game.graphics.wrench], [0])))
         
         self.previous_rung = (int(position[0]/game.sprite_width), int(position[1]/game.sprite_height))
 
