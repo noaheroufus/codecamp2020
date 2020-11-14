@@ -6,9 +6,12 @@ from canvas import Canvas
 from player import Player
 from event import Event
 from state import State
+from timer import Timer
+from action_timer import ActionTimer
 
 class Game:
-    screen_size = screen_width, screen_height = 320, 240
+    sprite_size = sprite_width, sprite_height = 32, 32
+    screen_size = screen_width, screen_height = 320, 224
     screen_scale = 2
     screen = False
     canvas = False
@@ -16,7 +19,7 @@ class Game:
     state = State()
     clock = False
     tps = 60
-    game_objects = []
+    game_objects = [[],[],[],[]]
 
     def __init__(self):
         pygame.init()
@@ -26,7 +29,12 @@ class Game:
         self.graphics = Graphics()
         self.canvas = Canvas(self)
 
+        self.timer = Timer()
+
+        # === Game Objects ===
         self.player = Player(self, (self.screen_width/2, self.screen_height/2), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[10, 10, 10]))
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
+        self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
         self.background = Object(self, (0,0), self.screen_size, Graphic([self.graphics.background], [0]))
         self.game_objects.append(self.background)
         self.game_objects.append(self.player)
@@ -41,16 +49,15 @@ class Game:
 
     def update(self):
         self.clock.tick(self.tps)
+        self.timer.tick()
 
         self.handle_inputs()
         self.handle_events()
         
-        if self.state.get_state() == State.STATE_GAME_PLAY:
-            for obj in self.game_objects:
-                obj.update()
-                
         if self.player.get_health() == 0:
             self.state.set_state(State.STATE_GAME_OVER)
+        for obj in self.game_objects[self.state.get_state()]:
+            obj.update()
     
     def render(self):
         self.canvas.render()
@@ -77,14 +84,14 @@ class Game:
         if keys[pygame.K_UP]:
             pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_UP, {}))
         if keys[pygame.K_SPACE]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_JUMP, {}))
+            pygame.event.post(pygame.event.Event(Event.EVENT_SPACE, {}))
 
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-            elif event.type == Event.EVENT_PLAYER_JUMP:
-                if self.state.get_state() != State.STATE_GAME_PLAY:
-                    self.state.set_state(State.STATE_GAME_PLAY)
+            elif event.type == Event.EVENT_SPACE:
+                if self.state.get_state() != State.STATE_GAME_CLIMB:
+                    self.state.set_state(State.STATE_GAME_CLIMB)
             
             self.player.handle_event(event)
