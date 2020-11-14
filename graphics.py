@@ -27,3 +27,4 @@ class Graphics:
         self.timer_needle_nw = pygame.image.load(os.path.join('graphics', 'timer_needle_nw.png')).convert_alpha()
         self.title_screen = pygame.image.load(os.path.join('graphics', 'title_screen.png')).convert_alpha()
         self.rung = pygame.image.load(os.path.join('graphics', 'rung.png')).convert_alpha()
+        self.wrench = pygame.image.load(os.path.join('graphics', 'wrench.png')).convert_alpha()
