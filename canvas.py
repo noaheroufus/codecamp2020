@@ -16,9 +16,10 @@ class Canvas:
     def transition(self, new_state):
         self.transition_new_state = new_state
         self.transitioning = True
-        self.transition_surface = pygame.Surface(self.game.screen.get_size())
-        self.transition_surface.fill((0,0,0))
-        self.transition_surface.set_alpha(0)
+        if self.transition_surface == False:
+            self.transition_surface = pygame.Surface(self.game.screen.get_size())
+            self.transition_surface.fill((0,0,0))
+            self.transition_surface.set_alpha(0)
 
     def render(self):
         self.surface.fill((100,100,100))

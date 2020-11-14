@@ -30,14 +30,20 @@ class Player(Object):
 
     def update(self):
         super().update()
-        # if colliding with rung
-        ladder_coords = self.game.ladder.convert_to_ladder_coords(self.position)
-        if self.game.ladder.in_range(ladder_coords) and ladder_coords != self.previous_rung:
-            if (self.colliding(self.game.ladder.cells[ladder_coords[1]][ladder_coords[0]], self.collision_radius)):
-                self.velocity = [0,0]
-                self.previous_rung = ladder_coords
-                self.hanging = True
-                self.hang()
+        if self.get_health() < 1:
+            pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_OVER))
+
+        if self.game.state.get_state() == State.STATE_GAME_CLIMB:
+            # if colliding with rung
+            ladder_coords = self.game.ladder.convert_to_ladder_coords(self.position)
+            if self.game.ladder.in_range(ladder_coords) and ladder_coords != self.previous_rung:
+                if (self.colliding(self.game.ladder.cells[ladder_coords[1]][ladder_coords[0]], self.collision_radius)):
+                    self.velocity = [0,0]
+                    self.previous_rung = ladder_coords
+                    self.hanging = True
+                    self.hang()
+            if self.position[0] >= self.game.screen_width - self.size[0] or self.position[0] <= 0 or self.position[1]>self.game.screen_height-self.size[1]:
+                self.set_health(0)
 
     def render(self):
         super().render()

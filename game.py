@@ -61,9 +61,6 @@ class Game:
         self.handle_inputs()
         self.handle_events()
 
-        if self.player.get_health() == 0:
-            pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_OVER))
-
         for obj in self.game_objects[self.state.get_state()]:
             obj.update()
 
@@ -93,7 +90,14 @@ class Game:
                     pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_ITEM, {}))
                 if event.key == pygame.K_SPACE:
                     if self.state.get_state() == State.STATE_GAME_MENU:
-                        pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_BATTLE))
+                        pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_CLIMB))
+                    if self.state.get_state() == State.STATE_GAME_OVER:
+                        self.ladder.__init__(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
+                        self.player.set_health(100)
+                        self.player.previous_rung = (0,0)
+                        self.player.velocity = (0,0)
+                        self.player.position = (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height)
+                        pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_CLIMB))
                     elif self.state.get_state() != State.STATE_GAME_MENU and self.state.get_state() != State.STATE_GAME_OVER:
                         pygame.event.post(pygame.event.Event(Event.EVENT_USE_ITEM, {}))
                 if self.state.get_state() == State.STATE_GAME_BATTLE:
