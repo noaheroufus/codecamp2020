@@ -10,5 +10,7 @@ class Text(Object):
         self.text = text
         self.color = color
 
+    def get_text(self):
+        return self.text
     def render(self):
         self.game.canvas.surface.blit(self.font.render(self.text, False, self.color), self.position)

@@ -8,6 +8,7 @@ from jammer import Jammer
 from dish import Dish
 from graphic import Graphic
 from state import State
+from turn_counter import TurnCounter
 
 class Player(Object):
     inventory = False
@@ -30,6 +31,9 @@ class Player(Object):
         self.inventory.add_item(Dish(weight=10, graphic=Graphic([game.graphics.dish], [0])))
         
         self.previous_rung = (0,0)
+
+        self.defending = False
+        self.jamming = False
 
     def update(self):
         super().update()
@@ -84,6 +88,11 @@ class Player(Object):
             self.inventory.swap()
         if event.type == Event.EVENT_USE_ITEM:
             self.inventory.action(self)
+        if event.type == Event.EVENT_RESET:
+            if event.machine == TurnCounter.MACHINE_TURN_COUNTER:
+                self.defending = False
+                self.jamming = False
+
             
     def get_health(self):
         return self.health
@@ -97,7 +106,8 @@ class Player(Object):
             self.health = health
 
     def get_armour(self):
-        return self.armour
+        if self.defending: return self.armour * 2
+        else: return self.armour
 
     def set_armour(self, armour):
         if armour > 100:
@@ -144,3 +154,16 @@ class Player(Object):
             self.hanging = False
         else:
             self.jump_down()
+        self.graphic.graphics = [self.game.graphics.player_hang_jump_right]
+        self.graphic.times = [1]
+        self.set_velocity(1, 0)
+        self.hanging = False
+
+    def attack(self, other):
+        other.damage(self.inventory.get_active_item().weight)
+    def damage(self, weight):
+        if self.armour > 0:
+            new_armour = self.get_armour() - weight
+            if self.armour > new_armour: self.armour = new_armour
+        else:
+            self.health -= weight

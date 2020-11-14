@@ -6,3 +6,4 @@ class Event:
     EVENT_CHANGE_ITEM = pygame.USEREVENT + 2
     EVENT_USE_ITEM = pygame.USEREVENT + 3
     EVENT_CHANGE_STATE = pygame.USEREVENT + 4
+    EVENT_RESET = pygame.USEREVENT + 5

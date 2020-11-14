@@ -9,13 +9,21 @@ class Menu(Object):
         self.selection = 0
         self.pointer = pointer
         self.height = int(len(options)/3)
-        if self.height < len(options)/3:
+        if self.height < len(options)/3 or self.height < 2:
             self.height += 1
         self.width = 3
         self.text_margin = self.game.sprite_height/3
         self.options = []
         for o in range(len(options)):
             self.options.append(Text(game, (self.position[0]+self.game.sprite_width/2, self.position[1]-(self.game.sprite_height*self.height)+(self.game.sprite_height/3*o)+self.text_margin), options[o]))
+        self.visible = False
+
+    def update(self):
+        super().update
+        if self.game.turn_counter.is_player_turn():
+            self.visible = True
+        else:
+            self.visible = False
 
     def handle_event(self, event):
         if event.key == pygame.K_DOWN:
@@ -26,21 +34,31 @@ class Menu(Object):
             self.selection -= 1
             if self.selection < 0:
                 self.selection = 0
+        if event.key == pygame.K_SPACE:
+            if self.options[self.selection].get_text() == "Attack":
+                if len(self.game.turn_counter.enemies) > 0:
+                    self.game.player.attack(self.game.turn_counter.enemies[0])
+            if self.options[self.selection].get_text() == "Defend":
+                self.game.player.defending = True
+            if self.options[self.selection].get_text() == "Item":
+                pass
+            self.game.turn_counter.turn_advance()
 
     def render(self):
-        for i in range(self.height):
-            for j in range(self.width):
-                cell = self.game.graphics.menu_c
-                if i == 0 and j == 0: cell = self.game.graphics.menu_sw
-                elif i == 0 and j > 0 and j < self.width-1: cell = self.game.graphics.menu_s
-                elif i == 0 and j == self.width-1: cell = self.game.graphics.menu_se
-                elif i > 0 and i < self.height-1 and j == 0: cell = self.game.graphics.menu_w
-                elif i == self.height-1 and j == 0: cell = self.game.graphics.menu_nw
-                elif i == self.height-1 and j > 0 and j < self.width-1: cell = self.game.graphics.menu_n
-                elif i == self.height-1 and j == self.width-1: cell = self.game.graphics.menu_ne
-                elif i > 0 and i < self.height-1 and j == self.width-1: cell = self.game.graphics.menu_e
-                self.game.canvas.surface.blit(cell, (self.position[0]+(self.game.sprite_width*j), self.position[1]-(self.game.sprite_height*(i+1))))
-        for o in self.options:
-            o.render()
-        if self.pointer:
-            self.pointer.render(self.game.canvas.surface, (self.position[0], self.position[1]-(self.game.sprite_height*self.height)+(self.game.sprite_height/3*self.selection)+self.text_margin))
+        if self.visible:
+            for i in range(self.height):
+                for j in range(self.width):
+                    cell = self.game.graphics.menu_c
+                    if i == 0 and j == 0: cell = self.game.graphics.menu_sw
+                    elif i == 0 and j > 0 and j < self.width-1: cell = self.game.graphics.menu_s
+                    elif i == 0 and j == self.width-1: cell = self.game.graphics.menu_se
+                    elif i > 0 and i < self.height-1 and j == 0: cell = self.game.graphics.menu_w
+                    elif i == self.height-1 and j == 0: cell = self.game.graphics.menu_nw
+                    elif i == self.height-1 and j > 0 and j < self.width-1: cell = self.game.graphics.menu_n
+                    elif i == self.height-1 and j == self.width-1: cell = self.game.graphics.menu_ne
+                    elif i > 0 and i < self.height-1 and j == self.width-1: cell = self.game.graphics.menu_e
+                    self.game.canvas.surface.blit(cell, (self.position[0]+(self.game.sprite_width*j), self.position[1]-(self.game.sprite_height*(i+1))))
+            for o in self.options:
+                o.render()
+            if self.pointer:
+                self.pointer.render(self.game.canvas.surface, (self.position[0], self.position[1]-(self.game.sprite_height*self.height)+(self.game.sprite_height/3*self.selection)+self.text_margin))
