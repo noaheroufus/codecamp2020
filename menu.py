@@ -1,17 +1,21 @@
 from object import Object
+from text import Text
 import pygame
 
 # Stores a background image and is able to switch between multiple options and select one
 class Menu(Object):
     def __init__(self, game, position, options, pointer=False):
         super().__init__(game, position)
-        self.options = options
         self.selection = 0
         self.pointer = pointer
-        self.height = int(len(self.options)/2)
-        if self.height < len(self.options)/2:
+        self.height = int(len(options)/2.5)
+        if self.height < len(options)/2:
             self.height += 1
         self.width = 3
+        self.text_margin = self.game.sprite_height/3
+        self.options = []
+        for o in range(len(options)):
+            self.options.append(Text(game, (self.position[0]+self.game.sprite_width/2, self.position[1]-(self.game.sprite_height*self.height)+(self.game.sprite_height/3*o)+self.text_margin), options[o]))
 
     def handle_event(self, event):
         if event.key == pygame.K_DOWN:
@@ -36,5 +40,7 @@ class Menu(Object):
                 elif i == self.height-1 and j == self.width-1: cell = self.game.graphics.menu_ne
                 elif i > 0 and i < self.height-1 and j == self.width-1: cell = self.game.graphics.menu_e
                 self.game.canvas.surface.blit(cell, (self.position[0]+(self.game.sprite_width*j), self.position[1]-(self.game.sprite_height*(i+1))))
+        for o in self.options:
+            o.render()
         if self.pointer:
-            self.pointer.render(self.game.canvas.surface, (self.position[0], self.position[1]-(self.game.sprite_height*self.height)+(self.game.sprite_height/2*self.selection)))
+            self.pointer.render(self.game.canvas.surface, (self.position[0], self.position[1]-(self.game.sprite_height*self.height)+(self.game.sprite_height/3*self.selection)+self.text_margin))
