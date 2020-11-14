@@ -7,11 +7,14 @@ class Object:
     velocity = [0, 0]
     graphic = False
 
-    def __init__(self, game, position, size, graphic=False):
+    def __init__(self, game, position, size=10, graphic=False):
         self.game = game
         self.position = position
-        self.size = size
         self.graphic = graphic
+        if self.graphic:
+            self.size = self.graphic.graphics[0].get_rect()
+        else:
+            self.size = size
 
     def set_velocity(self, x, y):
         self.velocity = [x, y]

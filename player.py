@@ -9,11 +9,13 @@ class Player(Object):
 
     def __init__(self, game, position, size, graphic=False):
         super().__init__(game, position, size, graphic)
+        self.hanging = False
 
         self.inventory = Inventory(100)
 
     def update(self):
         super().update()
+        # if colliding with rung
 
     def render(self):
         super().render()
@@ -22,6 +24,10 @@ class Player(Object):
         if item:
             item.render(self.game, self.position)
 
+    def move(self):
+        if self.hanging:
+            # Move
+            Print("Should move")
     def handle_event(self, event):
         if event.type == Event.EVENT_PLAYER_MOVE_RIGHT:
             self.set_velocity(1, 0)
@@ -31,6 +37,8 @@ class Player(Object):
             self.set_velocity(-1, 0)
         if event.type == Event.EVENT_PLAYER_MOVE_UP:
             self.set_velocity(0, -1)
+        if event.type == Event.EVENT_SPACE:
+            self.start_climbing()
             
     def get_health(self):
         return self.health
@@ -53,3 +61,7 @@ class Player(Object):
             self.armour = 0
         else:
             self.armour = armour
+
+    def start_climbing(self):
+        self.graphic.graphics = [self.game.graphics.player_hang]
+        self.graphic.times = [1]

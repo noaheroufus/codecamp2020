@@ -8,6 +8,7 @@ class Graphics:
         self.player_walk_0 = pygame.image.load(os.path.join('graphics', 'player_walk_0.png')).convert_alpha()
         self.player_walk_1 = pygame.image.load(os.path.join('graphics', 'player_walk_1.png')).convert_alpha()
         self.player_walk_2 = pygame.image.load(os.path.join('graphics', 'player_walk_2.png')).convert_alpha()
+        self.player_hang = pygame.image.load(os.path.join('graphics', 'player_hang.png')).convert_alpha()
         self.background = pygame.image.load(os.path.join('graphics', 'background.png')).convert_alpha()
         self.cloud_1 = pygame.image.load(os.path.join('graphics', 'cloud_1.png')).convert_alpha()
         self.cloud_2 = pygame.image.load(os.path.join('graphics', 'cloud_2.png')).convert_alpha()
@@ -22,4 +23,4 @@ class Graphics:
         self.timer_needle_w = pygame.image.load(os.path.join('graphics', 'timer_needle_w.png')).convert_alpha()
         self.timer_needle_nw = pygame.image.load(os.path.join('graphics', 'timer_needle_nw.png')).convert_alpha()
         self.title_screen = pygame.image.load(os.path.join('graphics', 'title_screen.png')).convert_alpha()
-
+        self.rung = pygame.image.load(os.path.join('graphics', 'rung.png')).convert_alpha()

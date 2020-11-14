@@ -10,7 +10,7 @@ class Timer:
     def get_timer(self):
         return self.timer
     def ready(self):
-        return (self.timer == self.max-1 and self.subtimer >= self.speed/2) or (self.timer == 0 and self.subtimer <= self.speed/2)
+        return (self.timer >= self.max-1 and self.subtimer >= self.speed/2) or (self.timer == 0 and self.subtimer <= self.speed/2)
     def tick(self):
         self.subtimer += 1
         if self.subtimer >= self.speed:
