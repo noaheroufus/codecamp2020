@@ -75,23 +75,25 @@ class Game:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
+        
         if keys[pygame.K_RIGHT]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_RIGHT, {}))
+            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_RIGHT))
         if keys[pygame.K_DOWN]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_DOWN, {}))
+            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_DOWN))
         if keys[pygame.K_LEFT]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_LEFT, {}))
+            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_LEFT))
         if keys[pygame.K_UP]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_PLAYER_MOVE_UP, {}))
+            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_UP))
         if keys[pygame.K_SPACE]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_SPACE, {}))
+            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_SPACE))
 
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-            elif event.type == Event.EVENT_SPACE:
-                if self.state.get_state() != State.STATE_GAME_CLIMB:
-                    self.state.set_state(State.STATE_GAME_CLIMB)
+            elif event.type == Event.EVENT_KEY_PRESSED:
+                if event.key == pygame.K_SPACE:
+                    if self.state.get_state() != State.STATE_GAME_CLIMB:
+                        self.state.set_state(State.STATE_GAME_CLIMB)
             
             self.player.handle_event(event)
