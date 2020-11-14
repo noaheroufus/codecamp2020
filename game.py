@@ -9,8 +9,11 @@ from state import State
 from timer import Timer
 from action_timer import ActionTimer
 from ladder import Ladder
+import random
+from random import randint
 from menu import Menu
 from text import Text
+import math
 
 class Game:
     sprite_size = sprite_width, sprite_height = 32, 32
@@ -23,6 +26,7 @@ class Game:
     clock = False
     tps = 60
     game_objects = [[],[],[],[]]
+    clouds = []
 
     def __init__(self):
         pygame.init()
@@ -39,9 +43,21 @@ class Game:
         self.background = Object(self, (0,0), self.screen_size, Graphic([self.graphics.background], [0]))
         self.player = Player(self, (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[10, 10, 10]))
         self.ladder = Ladder(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
+        self.game_over = Object(self, (0,0), self.screen_size, Graphic([self.graphics.game_over], [0]))
         self.game_objects[State.STATE_GAME_MENU].append(self.title_screen)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.background)
+        for i in range(7):
+            cloudtype = randint(0,2)
+            types = [self.graphics.cloud_1, self.graphics.cloud_2, self.graphics.cloud_3]
+            cloud = Object(self, (randint(0, self.screen_width),randint(0, self.screen_height - 75)), (24,24), Graphic([types[cloudtype]], [0]))
+            cloud.set_velocity(random.uniform(1, 1.5), 0)
+            self.clouds.append(cloud)
+            self.game_objects[State.STATE_GAME_CLIMB].append(cloud)
+
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
+        self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
+        self.game_objects[State.STATE_GAME_OVER].append(self.game_over)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.ladder)
 
         timer_lengths = []
@@ -65,6 +81,10 @@ class Game:
         for obj in self.game_objects[self.state.get_state()]:
             obj.update()
 
+        for cloud in self.clouds:
+            if cloud.position[0] > self.screen_width:
+                cloud.position = (-16, randint(0, self.screen_height - 75))
+                
     def render(self):
         self.canvas.render()
         pygame.display.flip()
