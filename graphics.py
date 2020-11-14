@@ -51,3 +51,4 @@ class Graphics:
         self.enemy_bug_1 = pygame.image.load(os.path.join('graphics', 'bug_1.png')).convert_alpha()
         self.armour = pygame.image.load(os.path.join('graphics', 'armour_indicator.png')).convert_alpha()
         self.background_blank = pygame.image.load(os.path.join('graphics', 'background_blank.png')).convert_alpha()
+        self.timer_face_hard = pygame.image.load(os.path.join('graphics', 'timer_face_hard.png')).convert_alpha()

@@ -58,6 +58,12 @@ class Player(Object):
                     if type(rung) == RungPacket:
                         rung.collect()
                         self.inventory.add_item(Packet())
+                    if type(rung) == RungFrozen:
+                        if self.game.action_timer.bg.graphics[0] != self.game.graphics.timer_face_hard:
+                            self.game.action_timer.bg.graphics[0] = self.game.graphics.timer_face_hard
+                    else:
+                        if self.game.action_timer.bg.graphics[0] != self.game.graphics.timer_face:
+                            self.game.action_timer.bg.graphics[0] = self.game.graphics.timer_face
                     self.velocity = [0,0]
                     self.previous_rung = ladder_coords
                     self.hanging = True
