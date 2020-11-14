@@ -36,11 +36,15 @@ class Game:
         self.title_screen = Object(self, (0,0), self.screen_size, Graphic([self.graphics.title_screen], [0]))
         self.background = Object(self, (0,0), self.screen_size, Graphic([self.graphics.background], [0]))
         self.player = Player(self, (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[10, 10, 10]))
+        self.ladder = Ladder(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
+        self.game_over = Object(self, (0,0), self.screen_size, Graphic([self.graphics.game_over], [0]))
         self.game_objects[State.STATE_GAME_MENU].append(self.title_screen)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.background)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
+        self.game_objects[State.STATE_GAME_OVER].append(self.game_over)
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.ladder)
 
         timer_lengths = []
         for i in range(self.timer.max):
