@@ -135,7 +135,8 @@ class Player(Object):
         self.hanging = False
     def jump_up(self):
         pos = self.game.action_timer.needle.position
-        if pos == 0 or pos == 1 or pos == 7:
+        rung = self.game.ladder.cells[self.previous_rung[1]][self.previous_rung[0]]
+        if (type(rung) != RungFrozen and (pos == 0 or pos == 1 or pos == 7)) or (type(rung)==RungFrozen and pos == 1):
             self.graphic.graphics = [self.game.graphics.player_hang_jump]
             self.graphic.times = [1]
             self.set_velocity(0, -1)
@@ -144,7 +145,8 @@ class Player(Object):
             self.jump_down()
     def jump_left(self):
         pos = self.game.action_timer.needle.position
-        if pos == 0 or pos == 1 or pos == 7:
+        rung = self.game.ladder.cells[self.previous_rung[1]][self.previous_rung[0]]
+        if (type(rung) != RungFrozen and (pos == 0 or pos == 1 or pos == 7)) or (type(rung)==RungFrozen and pos == 1):
             self.graphic.graphics = [self.game.graphics.player_hang_jump_left]
             self.graphic.times = [1]
             self.set_velocity(-1, 0)
@@ -153,7 +155,8 @@ class Player(Object):
             self.jump_down()
     def jump_right(self):
         pos = self.game.action_timer.needle.position
-        if pos == 0 or pos == 1 or pos == 7:
+        rung = self.game.ladder.cells[self.previous_rung[1]][self.previous_rung[0]]
+        if (type(rung) != RungFrozen and (pos == 0 or pos == 1 or pos == 7)) or (type(rung)==RungFrozen and pos == 1):
             self.graphic.graphics = [self.game.graphics.player_hang_jump_right]
             self.graphic.times = [1]
             self.set_velocity(1, 0)
