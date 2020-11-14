@@ -57,7 +57,7 @@ class Player(Object):
                 if (self.colliding(rung, self.collision_radius)):
                     if type(rung) == RungPacket:
                         rung.collect()
-                        self.inventory.add_item(Packet())
+                        self.inventory.add_item(Packet(("ItemPacket", (16,16), 0, Graphic([self.game.graphics.packet], [0]))))
                     if type(rung) == RungFrozen:
                         if self.game.action_timer.bg.graphics[0] != self.game.graphics.timer_face_hard:
                             self.game.action_timer.bg.graphics[0] = self.game.graphics.timer_face_hard
