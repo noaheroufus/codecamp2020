@@ -16,6 +16,7 @@ from text import Text
 from turn_counter import TurnCounter
 import math
 from enemy import Enemy
+from radio_wave import RadioWave
 
 class Game:
     sprite_size = sprite_width, sprite_height = 32, 32
@@ -172,4 +173,9 @@ class Game:
                     self.menu_battle.handle_event(event)
             if event.type == Event.EVENT_CHANGE_STATE:
                 self.canvas.transition(event.state)
+            if event.type == Event.EVENT_TIMER_AT_0:
+                #if random.randrange(0,10) == 0:
+                    #radio_wave = RadioWave(self, self.sprite_size, Graphic([self.graphics.enemy_wave],[0])) 
+                    #self.game_objects[State.STATE_GAME_CLIMB].append(radio_wave)
+                pass
             self.player.handle_event(event)

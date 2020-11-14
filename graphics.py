@@ -34,6 +34,7 @@ class Graphics:
         self.battery = pygame.image.load(os.path.join('graphics', 'battery.png')).convert_alpha()
         self.jammer = pygame.image.load(os.path.join('graphics', 'jammer.png')).convert_alpha()
         self.dish = pygame.image.load(os.path.join('graphics', 'dish.png')).convert_alpha()
+        self.packet = pygame.image.load(os.path.join('graphics', 'item_packet.png')).convert_alpha()
         self.menu = pygame.image.load(os.path.join('graphics', 'menu.png')).convert_alpha()
         self.game_over = pygame.image.load(os.path.join('graphics', 'game_over.png')).convert_alpha()
         self.menu_c = pygame.image.load(os.path.join('graphics', 'menu_c.png')).convert_alpha()
@@ -50,3 +51,4 @@ class Graphics:
         self.menu_arrow = pygame.image.load(os.path.join('graphics', 'menu_arrow.png')).convert_alpha()
         self.enemy_bug_1 = pygame.image.load(os.path.join('graphics', 'bug_1.png')).convert_alpha()
         self.enemy_armour = pygame.image.load(os.path.join('graphics', 'bug_armour.png')).convert_alpha()
+        self.enemy_wave= pygame.image.load(os.path.join('graphics', 'radio_wave.png')).convert_alpha()

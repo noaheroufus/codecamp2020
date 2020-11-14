@@ -57,7 +57,7 @@ class Player(Object):
                 if (self.colliding(rung, self.collision_radius)):
                     if type(rung) == RungPacket:
                         rung.collect()
-                        self.inventory.add_item(Packet())
+                        self.inventory.add_item(Packet(("ItemPacket", (16,16), 0, Graphic([self.game.graphics.packet], [0]))))
                     self.velocity = [0,0]
                     self.previous_rung = ladder_coords
                     self.hanging = True
