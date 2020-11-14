@@ -1,5 +1,6 @@
 from object import Object
-from rung import Rung
+from rung import *
+import random
 
 class Ladder(Object):
     def __init__(self, game, width, height, position):
@@ -7,11 +8,21 @@ class Ladder(Object):
         self.width = width
         self.height = height
         self.cells = []   # [x][y]
+        cell_options = [
+            Rung,
+            RungFrozen,
+            RungPacket,
+            RungUpgradeStation
+        ]
+        cell_weights = [.919, .06, .02, .001]
+        cell_blob = random.choices(cell_options, cell_weights, k=height*(width-2))
+        iterator = 0
         for i in range(height):
             self.cells.append([]) # Append Row
             for j in range(width-2):
                 # Add item in cell
-                self.cells[i].append(Rung(game, ((j*self.game.sprite_width)+self.game.sprite_width, i*self.game.sprite_width)))
+                self.cells[i].append(cell_blob[iterator](game, ((j*self.game.sprite_width)+self.game.sprite_width, i*self.game.sprite_width)))
+                iterator += 1
 
     def render(self):
         for i in range(len(self.cells)):
