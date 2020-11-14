@@ -63,6 +63,8 @@ class Player(Object):
                 self.start_climbing()
         if event.type == Event.EVENT_CHANGE_ITEM:
             self.inventory.swap()
+        if event.type == Event.EVENT_USE_ITEM:
+            self.inventory.action(self)
             
     def get_health(self):
         return self.health

@@ -29,6 +29,9 @@ class Inventory:
             self.active_item+=1
         else:
             self.active_item=0
+    
+    def action(self, player):
+        self.get_active_item().action(player)
 
     def get_weight(self):
         weight = 0

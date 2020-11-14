@@ -106,4 +106,7 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_ITEM, {}))
+                if event.key == pygame.K_SPACE:
+                    if self.state.get_state() != State.STATE_GAME_MENU or self.state.get_state() != State.STATE_GAME_OVER:
+                        pygame.event.post(pygame.event.Event(Event.EVENT_USE_ITEM, {}))
             self.player.handle_event(event)
