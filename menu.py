@@ -41,7 +41,7 @@ class Menu(Object):
             if self.options[self.selection].get_text() == "Defend":
                 self.game.player.defending = True
             if self.options[self.selection].get_text() == "Item":
-                pass
+                print("TO DO")
             self.game.turn_counter.turn_advance()
 
     def render(self):

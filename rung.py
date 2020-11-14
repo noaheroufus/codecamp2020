@@ -15,6 +15,10 @@ class RungFrozen(Rung):
 class RungPacket(Rung):
     def __init__(self, game, position):
         super().__init__(game, position, Graphic([game.graphics.rung_packet],[0]))
+        self.collected = False
+    def collect(self):
+        self.collected = True
+        self.graphic = Graphic([self.game.graphics.rung],[0])
 
 class RungUpgradeStation(Rung):
     def __init__(self, game, position):

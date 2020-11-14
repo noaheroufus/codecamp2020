@@ -9,11 +9,21 @@ class Inventory:
         self.max_weight = max_weight
     
     def add_item(self, item):
+        for i in self.items:
+            if item.get_name() == i.get_name():
+                i.quantity += 1
+                return
+
         if (self.get_weight() + item.weight) <= self.max_weight:
             self.items.append(item)
     
     def get_items(self):
         return self.items
+    def get_num_items(self, item):
+        for i in self.get_items():
+            if i.get_name() == item:
+                return i.get_quantity()
+        return 0
 
     def get_active_item(self):
         if len(self.items) > 0:
