@@ -2,6 +2,9 @@ import pygame
 from object import Object
 from event import Event
 from inventory import Inventory
+from wrench import Wrench
+from graphics import Graphics
+from graphic import Graphic
 
 class Player(Object):
     inventory = False
@@ -13,6 +16,8 @@ class Player(Object):
         self.hanging = False
 
         self.inventory = Inventory(100)
+        graphics = Graphics()
+        self.inventory.add_item(Wrench(weight=10, graphic=Graphic([graphics.wrench], [0])))
 
     def update(self):
         super().update()
@@ -28,7 +33,7 @@ class Player(Object):
     def move(self):
         if self.hanging:
             # Move
-            Print("Should move")
+            print("Should move")
     def handle_event(self, event):
         if event.type == Event.EVENT_KEY_PRESSED:
             if event.key == pygame.K_RIGHT:
@@ -83,4 +88,3 @@ class Player(Object):
         self.graphic.graphics = [self.game.graphics.player_hang_jump_right]
         self.graphic.times = [1]
         self.set_velocity(1, 0)
-
