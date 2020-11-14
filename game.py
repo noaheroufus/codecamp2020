@@ -93,7 +93,7 @@ class Game:
                     pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_ITEM, {}))
                 if event.key == pygame.K_SPACE:
                     if self.state.get_state() == State.STATE_GAME_MENU:
-                        self.state.set_state(State.STATE_GAME_BATTLE)
+                        pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_BATTLE))
                     elif self.state.get_state() != State.STATE_GAME_MENU and self.state.get_state() != State.STATE_GAME_OVER:
                         pygame.event.post(pygame.event.Event(Event.EVENT_USE_ITEM, {}))
                 if self.state.get_state() == State.STATE_GAME_BATTLE:
