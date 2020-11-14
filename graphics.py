@@ -49,3 +49,5 @@ class Graphics:
         self.heart_half = pygame.image.load(os.path.join('graphics', 'heart_half.png')).convert_alpha()
         self.menu_arrow = pygame.image.load(os.path.join('graphics', 'menu_arrow.png')).convert_alpha()
         self.enemy_bug_1 = pygame.image.load(os.path.join('graphics', 'bug_1.png')).convert_alpha()
+        self.armour = pygame.image.load(os.path.join('graphics', 'armour_indicator.png')).convert_alpha()
+        self.background_blank = pygame.image.load(os.path.join('graphics', 'background_blank.png')).convert_alpha()
