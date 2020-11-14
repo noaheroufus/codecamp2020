@@ -12,6 +12,14 @@ class Graphics:
         self.cloud_1 = pygame.image.load(os.path.join('graphics', 'cloud_1.png')).convert_alpha()
         self.cloud_2 = pygame.image.load(os.path.join('graphics', 'cloud_2.png')).convert_alpha()
         self.cloud_3 = pygame.image.load(os.path.join('graphics', 'cloud_3.png')).convert_alpha()
-
-
+        self.timer_face = pygame.image.load(os.path.join('graphics', 'timer_face.png')).convert_alpha()
+        self.timer_needle_n = pygame.image.load(os.path.join('graphics', 'timer_needle_n.png')).convert_alpha()
+        self.timer_needle_ne = pygame.image.load(os.path.join('graphics', 'timer_needle_ne.png')).convert_alpha()
+        self.timer_needle_e = pygame.image.load(os.path.join('graphics', 'timer_needle_e.png')).convert_alpha()
+        self.timer_needle_se = pygame.image.load(os.path.join('graphics', 'timer_needle_se.png')).convert_alpha()
+        self.timer_needle_s = pygame.image.load(os.path.join('graphics', 'timer_needle_s.png')).convert_alpha()
+        self.timer_needle_sw = pygame.image.load(os.path.join('graphics', 'timer_needle_sw.png')).convert_alpha()
+        self.timer_needle_w = pygame.image.load(os.path.join('graphics', 'timer_needle_w.png')).convert_alpha()
+        self.timer_needle_nw = pygame.image.load(os.path.join('graphics', 'timer_needle_nw.png')).convert_alpha()
+        self.title_screen = pygame.image.load(os.path.join('graphics', 'title_screen.png')).convert_alpha()
 
