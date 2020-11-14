@@ -9,6 +9,8 @@ from dish import Dish
 from graphic import Graphic
 from state import State
 from turn_counter import TurnCounter
+from rung import *
+from packet import Packet
 
 class Player(Object):
     inventory = False
@@ -51,7 +53,11 @@ class Player(Object):
             # if colliding with rung
             ladder_coords = self.game.ladder.convert_to_ladder_coords(self.position)
             if self.game.ladder.in_range(ladder_coords) and ladder_coords != self.previous_rung:
-                if (self.colliding(self.game.ladder.cells[ladder_coords[1]][ladder_coords[0]], self.collision_radius)):
+                rung = self.game.ladder.cells[ladder_coords[1]][ladder_coords[0]]
+                if (self.colliding(rung, self.collision_radius)):
+                    if type(rung) == RungPacket:
+                        rung.collect()
+                        self.inventory.add_item(Packet())
                     self.velocity = [0,0]
                     self.previous_rung = ladder_coords
                     self.hanging = True

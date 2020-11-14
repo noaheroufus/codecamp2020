@@ -6,18 +6,22 @@ class InventoryItem:
     weight = 0
     graphic = False
 
-    def __init__(self, name="GenericItem", size=(10,10), weight=0, graphic=False):
+    def __init__(self, name="GenericItem", size=(10,10), weight=0, graphic=False, quantity=1):
         self.name = name
         self.size = size
         self.weight = weight
         self.graphic = graphic
         self.draw = False
+        self.quantity = quantity
 
     def get_name(self):
         return self.name
     
     def get_weight(self):
         return self.weight
+
+    def get_quantity(self):
+        return self.quantity
     
     def render(self, game, position):
         surface = False
