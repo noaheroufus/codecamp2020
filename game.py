@@ -9,6 +9,8 @@ from state import State
 from timer import Timer
 from action_timer import ActionTimer
 from ladder import Ladder
+import random
+from random import randint
 
 class Game:
     sprite_size = sprite_width, sprite_height = 32, 32
@@ -21,6 +23,7 @@ class Game:
     clock = False
     tps = 60
     game_objects = [[],[],[],[]]
+    clouds = []
 
     def __init__(self):
         pygame.init()
@@ -40,6 +43,13 @@ class Game:
         self.game_over = Object(self, (0,0), self.screen_size, Graphic([self.graphics.game_over], [0]))
         self.game_objects[State.STATE_GAME_MENU].append(self.title_screen)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.background)
+        for i in range(7):
+            cloudtype = randint(0,2)
+            types = [self.graphics.cloud_1, self.graphics.cloud_2, self.graphics.cloud_3]
+            cloud = Object(self, (randint(0, self.screen_width),randint(0, 170)), (24,24), Graphic([types[cloudtype]], [0]))
+            self.clouds.append(cloud)
+            cloud.set_velocity(random.uniform(1, 1.5), 0)
+            self.game_objects[State.STATE_GAME_CLIMB].append(cloud)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
@@ -68,6 +78,11 @@ class Game:
             self.state.set_state(State.STATE_GAME_OVER)
         for obj in self.game_objects[self.state.get_state()]:
             obj.update()
+
+        for cloud in self.clouds:
+            if cloud.position[0] > self.screen_width:
+                cloud.position = (-16, randint(0, self.screen_height))
+
     
     def render(self):
         self.canvas.render()
