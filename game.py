@@ -72,6 +72,9 @@ class Game:
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
 
+        self.floor_text = Text(self, (4, self.screen_height-28), str(self.player.floor), 24, (255,255,255))
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.floor_text)
+
     def update(self):
         self.clock.tick(self.tps)
         self.timer.tick()
@@ -99,6 +102,8 @@ class Game:
         if hearts-math.floor(hearts)==0.5:
             if len(self.player_hearts) > 0:
                 self.player_hearts[len(self.player_hearts)-1].graphic.graphics[0] = self.graphics.heart_half
+
+        self.floor_text.text = str(self.player.floor)
 
         for obj in self.game_objects[self.state.get_state()]:
             obj.update()
@@ -131,6 +136,7 @@ class Game:
             self.player.graphic.graphics = [self.graphics.player_idle]
             self.player.graphic.times = [1]
             self.player.position = (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height)
+            self.player.floor+=1
         if state == State.STATE_GAME_CLIMB:
             self.ladder.__init__(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
             self.player.set_health(100)

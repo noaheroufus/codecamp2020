@@ -55,7 +55,6 @@ class Player(Object):
             if self.position[0] >= self.game.screen_width - self.size[0] or self.position[0] <= 0 or self.position[1]>self.game.screen_height-self.size[1]:
                 self.set_health(0)
             if self.position[1]<=0:
-                self.floor+=1
                 pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_BATTLE))
 
     def render(self):
