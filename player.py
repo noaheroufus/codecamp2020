@@ -3,6 +3,8 @@ from object import Object
 from event import Event
 from inventory import Inventory
 from wrench import Wrench
+from battery import Battery
+from jammer import Jammer
 from graphic import Graphic
 
 class Player(Object):
@@ -16,6 +18,8 @@ class Player(Object):
 
         self.inventory = Inventory(100)
         self.inventory.add_item(Wrench(weight=10, graphic=Graphic([game.graphics.wrench], [0])))
+        self.inventory.add_item(Battery(weight=10, graphic=Graphic([game.graphics.battery], [0])))
+        self.inventory.add_item(Jammer(weight=10, graphic=Graphic([game.graphics.jammer], [0])))
         
         self.previous_rung = (int(position[0]/game.sprite_width), int(position[1]/game.sprite_height))
 
@@ -35,6 +39,7 @@ class Player(Object):
         if self.hanging:
             # Move
             print("Should move")
+
     def handle_event(self, event):
         if event.type == Event.EVENT_KEY_PRESSED:
             if event.key == pygame.K_RIGHT:
@@ -47,6 +52,8 @@ class Player(Object):
                 self.jump_up()
             if event.key == pygame.K_SPACE:
                 self.start_climbing()
+        if event.type == Event.EVENT_CHANGE_ITEM:
+            self.inventory.swap()
             
     def get_health(self):
         return self.health
@@ -73,18 +80,22 @@ class Player(Object):
     def start_climbing(self):
         self.graphic.graphics = [self.game.graphics.player_hang]
         self.graphic.times = [1]
+
     def jump_down(self):
         self.graphic.graphics = [self.game.graphics.player_hang]
         self.graphic.times = [1]
         self.set_velocity(0, 1)
+
     def jump_up(self):
         self.graphic.graphics = [self.game.graphics.player_hang_jump]
         self.graphic.times = [1]
         self.set_velocity(0, -1)
+
     def jump_left(self):
         self.graphic.graphics = [self.game.graphics.player_hang_jump_left]
         self.graphic.times = [1]
         self.set_velocity(-1, 0)
+
     def jump_right(self):
         self.graphic.graphics = [self.game.graphics.player_hang_jump_right]
         self.graphic.times = [1]

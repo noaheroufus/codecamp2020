@@ -92,14 +92,18 @@ class Game:
             pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_UP))
         if keys[pygame.K_SPACE]:
             pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_SPACE))
+        if keys[pygame.K_q]:
+            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_q))
 
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-            elif event.type == Event.EVENT_KEY_PRESSED:
+            if event.type == Event.EVENT_KEY_PRESSED:
                 if event.key == pygame.K_SPACE:
                     if self.state.get_state() != State.STATE_GAME_CLIMB:
                         self.state.set_state(State.STATE_GAME_CLIMB)
-            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_ITEM, {}))
             self.player.handle_event(event)

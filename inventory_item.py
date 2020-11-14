@@ -11,6 +11,7 @@ class InventoryItem:
         self.size = size
         self.weight = weight
         self.graphic = graphic
+        self.draw = False
 
     def get_name(self):
         return self.name
@@ -25,7 +26,8 @@ class InventoryItem:
 
         if self.graphic and surface:
             scaled = pygame.transform.scale(self.graphic.graphics[0], self.size)
-            surface.blit(scaled, (16,8))
+            position = (position[0]+14, position[1]+8)
+            game.canvas.surface.blit(scaled, position)
         else:
             rect = pygame.Surface(self.size)
             rect.fill((255,255,255))
