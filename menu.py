@@ -8,8 +8,8 @@ class Menu(Object):
         super().__init__(game, position)
         self.selection = 0
         self.pointer = pointer
-        self.height = int(len(options)/2.5)
-        if self.height < len(options)/2:
+        self.height = int(len(options)/3)
+        if self.height < len(options)/3:
             self.height += 1
         self.width = 3
         self.text_margin = self.game.sprite_height/3
