@@ -5,4 +5,6 @@ class Battery(InventoryItem):
         super().__init__(name, size, weight, graphic)
 
     def action(self, player):
-        pass
+        if player.get_health() < 100:
+            player.set_health(player.get_health()+25)
+            player.inventory.get_items().remove(self)
