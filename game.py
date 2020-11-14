@@ -11,6 +11,8 @@ from action_timer import ActionTimer
 from ladder import Ladder
 import random
 from random import randint
+from menu import Menu
+from text import Text
 
 class Game:
     sprite_size = sprite_width, sprite_height = 32, 32
@@ -54,6 +56,9 @@ class Game:
         self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
         self.game_objects[State.STATE_GAME_OVER].append(self.game_over)
+        self.game_objects[State.STATE_GAME_MENU].append(self.title_screen)
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.background)
+        self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.ladder)
 
         timer_lengths = []
@@ -62,8 +67,8 @@ class Game:
         self.action_timer = ActionTimer(self, (0,0), self.sprite_size, Graphic([self.graphics.timer_face], [0]), Graphic([self.graphics.timer_needle_n, self.graphics.timer_needle_ne, self.graphics.timer_needle_e, self.graphics.timer_needle_se, self.graphics.timer_needle_s, self.graphics.timer_needle_sw, self.graphics.timer_needle_w, self.graphics.timer_needle_nw], timer_lengths))
         self.game_objects[State.STATE_GAME_CLIMB].append(self.action_timer)
 
-        self.ladder = Ladder(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
-        self.game_objects[State.STATE_GAME_CLIMB].append(self.ladder)
+        self.menu_battle = Menu(self, (0, self.screen_height), ["Attack", "Defend", "Item", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE"], pointer=Graphic([self.graphics.battery], [0]))
+        self.game_objects[State.STATE_GAME_BATTLE].append(self.menu_battle)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
 
@@ -73,17 +78,14 @@ class Game:
 
         self.handle_inputs()
         self.handle_events()
-        
-        if self.player.get_health() == 0:
-            self.state.set_state(State.STATE_GAME_OVER)
+
         for obj in self.game_objects[self.state.get_state()]:
             obj.update()
 
         for cloud in self.clouds:
             if cloud.position[0] > self.screen_width:
                 cloud.position = (-16, randint(0, self.screen_height))
-
-    
+                
     def render(self):
         self.canvas.render()
         pygame.display.flip()
@@ -93,39 +95,45 @@ class Game:
         while self.running:
             self.update()
             self.render()
-        
+
         sys.exit()
 
     def handle_inputs(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
-        
-        if keys[pygame.K_RIGHT]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_RIGHT))
-        if keys[pygame.K_DOWN]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_DOWN))
-        if keys[pygame.K_LEFT]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_LEFT))
-        if keys[pygame.K_UP]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_UP))
-        if keys[pygame.K_SPACE]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_SPACE))
-        if keys[pygame.K_q]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_q))
+
+    def new_state(self, state):
+        self.state.set_state(state)
+        if state == State.STATE_GAME_BATTLE:
+            self.player.velocity=[0,0]
+            self.player.graphic.graphics = [self.graphics.player_idle]
+            self.player.graphic.times = [1]
+            self.player.position = (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height)
+        if state == State.STATE_GAME_CLIMB:
+            self.ladder.__init__(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
+            self.player.set_health(100)
+            self.player.previous_rung = (0,0)
+            self.player.velocity = (0,0)
+            self.player.position = (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height)
+
 
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-            if event.type == Event.EVENT_KEY_PRESSED:
-                if event.key == pygame.K_SPACE:
-                    if self.state.get_state() != State.STATE_GAME_CLIMB:
-                        self.state.set_state(State.STATE_GAME_CLIMB)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_ITEM, {}))
                 if event.key == pygame.K_SPACE:
-                    if self.state.get_state() != State.STATE_GAME_MENU and self.state.get_state() != State.STATE_GAME_OVER:
+                    if self.state.get_state() == State.STATE_GAME_MENU:
+                        pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_CLIMB))
+                    if self.state.get_state() == State.STATE_GAME_OVER:
+                        pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_CLIMB))
+                    elif self.state.get_state() != State.STATE_GAME_MENU and self.state.get_state() != State.STATE_GAME_OVER:
                         pygame.event.post(pygame.event.Event(Event.EVENT_USE_ITEM, {}))
+                if self.state.get_state() == State.STATE_GAME_BATTLE:
+                    self.menu_battle.handle_event(event)
+            if event.type == Event.EVENT_CHANGE_STATE:
+                self.canvas.transition(event.state)
             self.player.handle_event(event)

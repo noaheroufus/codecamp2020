@@ -7,11 +7,13 @@ from battery import Battery
 from jammer import Jammer
 from dish import Dish
 from graphic import Graphic
+from state import State
 
 class Player(Object):
     inventory = False
     health = 100
     armour = 100
+    floor = 1
 
     def __init__(self, game, position, size, graphic=False):
         super().__init__(game, position, size, graphic)
@@ -29,14 +31,24 @@ class Player(Object):
 
     def update(self):
         super().update()
-        # if colliding with rung
-        ladder_coords = self.game.ladder.convert_to_ladder_coords(self.position)
-        if self.game.ladder.in_range(ladder_coords) and ladder_coords != self.previous_rung:
-            if (self.colliding(self.game.ladder.cells[ladder_coords[1]][ladder_coords[0]], self.collision_radius)):
-                self.velocity = [0,0]
-                self.previous_rung = ladder_coords
-                self.hanging = True
-                self.hang()
+        if self.get_health() < 1:
+            self.floor = 1
+            pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_OVER))
+
+        if self.game.state.get_state() == State.STATE_GAME_CLIMB:
+            # if colliding with rung
+            ladder_coords = self.game.ladder.convert_to_ladder_coords(self.position)
+            if self.game.ladder.in_range(ladder_coords) and ladder_coords != self.previous_rung:
+                if (self.colliding(self.game.ladder.cells[ladder_coords[1]][ladder_coords[0]], self.collision_radius)):
+                    self.velocity = [0,0]
+                    self.previous_rung = ladder_coords
+                    self.hanging = True
+                    self.hang()
+            if self.position[0] >= self.game.screen_width - self.size[0] or self.position[0] <= 0 or self.position[1]>self.game.screen_height-self.size[1]:
+                self.set_health(0)
+            if self.position[1]<=0:
+                self.floor+=1
+                pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_BATTLE))
 
     def render(self):
         super().render()
@@ -45,24 +57,22 @@ class Player(Object):
         if item:
             item.render(self.game, self.position)
 
-    def move(self):
-        if self.hanging:
-            # Move
-            print("Should move")
-
     def handle_event(self, event):
-        if event.type == Event.EVENT_KEY_PRESSED:
-            if self.hanging:
-                if event.key == pygame.K_RIGHT:
-                    self.jump_right()
-                if event.key == pygame.K_DOWN:
-                    self.jump_down()
-                if event.key == pygame.K_LEFT:
-                    self.jump_left()
-                if event.key == pygame.K_UP:
-                    self.jump_up()
-            if event.key == pygame.K_SPACE:
-                self.start_climbing()
+        if event.type == pygame.KEYDOWN:
+            if self.game.state.get_state() == State.STATE_GAME_CLIMB:
+                if self.hanging:
+                    if event.key == pygame.K_RIGHT:
+                        self.jump_right()
+                    if event.key == pygame.K_DOWN:
+                        self.jump_down()
+                    if event.key == pygame.K_LEFT:
+                        self.jump_left()
+                    if event.key == pygame.K_UP:
+                        self.jump_up()
+            elif self.game.state == State.STATE_GAME_BATTLE:
+                if self.acting:
+                    # Matching minigame the button presses here
+                    pass
         if event.type == Event.EVENT_CHANGE_ITEM:
             self.inventory.swap()
         if event.type == Event.EVENT_USE_ITEM:
@@ -95,7 +105,6 @@ class Player(Object):
     def hang(self):
         self.graphic.graphics = [self.game.graphics.player_hang]
         self.graphic.times = [1]
-
     def jump_down(self):
         self.graphic.graphics = [self.game.graphics.player_hang]
         self.graphic.times = [1]
