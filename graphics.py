@@ -45,3 +45,5 @@ class Graphics:
         self.menu_sw = pygame.image.load(os.path.join('graphics', 'menu_sw.png')).convert_alpha()
         self.menu_w = pygame.image.load(os.path.join('graphics', 'menu_w.png')).convert_alpha()
         self.menu_nw = pygame.image.load(os.path.join('graphics', 'menu_nw.png')).convert_alpha()
+        self.heart_full = pygame.image.load(os.path.join('graphics', 'heart_full.png')).convert_alpha()
+        self.heart_half = pygame.image.load(os.path.join('graphics', 'heart_half.png')).convert_alpha()

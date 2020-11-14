@@ -1,4 +1,4 @@
-import pygame
+import pygame, math
 from object import Object
 from event import Event
 from inventory import Inventory
@@ -12,6 +12,8 @@ from state import State
 class Player(Object):
     inventory = False
     health = 100
+    hearts = 10
+    max_hearts = 10
     armour = 100
     floor = 1
 
@@ -31,10 +33,16 @@ class Player(Object):
 
     def update(self):
         super().update()
+
+        self.hearts = math.ceil(self.health/20)
+        if self.hearts > 5: self.hearts = 5
+        if self.hearts < 1: self.hearts = 1
+
         if self.get_health() < 1:
             self.floor = 1
+            self.hearts = 0
             pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_OVER))
-
+        
         if self.game.state.get_state() == State.STATE_GAME_CLIMB:
             # if colliding with rung
             ladder_coords = self.game.ladder.convert_to_ladder_coords(self.position)
