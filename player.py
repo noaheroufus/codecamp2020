@@ -94,7 +94,6 @@ class Player(Object):
     def hang(self):
         self.graphic.graphics = [self.game.graphics.player_hang]
         self.graphic.times = [1]
-
     def jump_down(self):
         self.graphic.graphics = [self.game.graphics.player_hang]
         self.graphic.times = [1]
