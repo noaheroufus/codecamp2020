@@ -16,17 +16,25 @@ class Player(Object):
         super().__init__(game, position, size, graphic)
         self.hanging = False
 
+        self.collision_radius = size[0]/10
+
         self.inventory = Inventory(100)
         self.inventory.add_item(Wrench(weight=10, graphic=Graphic([game.graphics.wrench], [0])))
         self.inventory.add_item(Battery(weight=10, graphic=Graphic([game.graphics.battery], [0])))
         self.inventory.add_item(Jammer(weight=10, graphic=Graphic([game.graphics.jammer], [0])))
         
-        self.previous_rung = (int(position[0]/game.sprite_width), int(position[1]/game.sprite_height))
+        self.previous_rung = (0,0)
 
     def update(self):
         super().update()
         # if colliding with rung
-
+        ladder_coords = self.game.ladder.convert_to_ladder_coords(self.position)
+        if self.game.ladder.in_range(ladder_coords) and ladder_coords != self.previous_rung:
+            if (self.colliding(self.game.ladder.cells[ladder_coords[1]][ladder_coords[0]], self.collision_radius)):
+                self.velocity = [0,0]
+                self.previous_rung = ladder_coords
+                self.hanging = True
+                self.hang()
 
     def render(self):
         super().render()
@@ -42,14 +50,15 @@ class Player(Object):
 
     def handle_event(self, event):
         if event.type == Event.EVENT_KEY_PRESSED:
-            if event.key == pygame.K_RIGHT:
-                self.jump_right()
-            if event.key == pygame.K_DOWN:
-                self.jump_down()
-            if event.key == pygame.K_LEFT:
-                self.jump_left()
-            if event.key == pygame.K_UP:
-                self.jump_up()
+            if self.hanging:
+                if event.key == pygame.K_RIGHT:
+                    self.jump_right()
+                if event.key == pygame.K_DOWN:
+                    self.jump_down()
+                if event.key == pygame.K_LEFT:
+                    self.jump_left()
+                if event.key == pygame.K_UP:
+                    self.jump_up()
             if event.key == pygame.K_SPACE:
                 self.start_climbing()
         if event.type == Event.EVENT_CHANGE_ITEM:
@@ -78,6 +87,8 @@ class Player(Object):
             self.armour = armour
 
     def start_climbing(self):
+        self.hang;
+    def hang(self):
         self.graphic.graphics = [self.game.graphics.player_hang]
         self.graphic.times = [1]
 
@@ -85,18 +96,19 @@ class Player(Object):
         self.graphic.graphics = [self.game.graphics.player_hang]
         self.graphic.times = [1]
         self.set_velocity(0, 1)
-
+        self.hanging = False
     def jump_up(self):
         self.graphic.graphics = [self.game.graphics.player_hang_jump]
         self.graphic.times = [1]
         self.set_velocity(0, -1)
-
+        self.hanging = False
     def jump_left(self):
         self.graphic.graphics = [self.game.graphics.player_hang_jump_left]
         self.graphic.times = [1]
         self.set_velocity(-1, 0)
-
+        self.hanging = False
     def jump_right(self):
         self.graphic.graphics = [self.game.graphics.player_hang_jump_right]
         self.graphic.times = [1]
         self.set_velocity(1, 0)
+        self.hanging = False
