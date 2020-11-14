@@ -11,6 +11,7 @@ from action_timer import ActionTimer
 from ladder import Ladder
 from menu import Menu
 from text import Text
+from turn_counter import TurnCounter
 
 class Game:
     sprite_size = sprite_width, sprite_height = 32, 32
@@ -34,6 +35,8 @@ class Game:
 
         self.timer = Timer()
 
+        self.turn_counter = TurnCounter()
+
         # === Game Objects ===
         self.title_screen = Object(self, (0,0), self.screen_size, Graphic([self.graphics.title_screen], [0]))
         self.background = Object(self, (0,0), self.screen_size, Graphic([self.graphics.background], [0]))
@@ -52,6 +55,7 @@ class Game:
 
         self.menu_battle = Menu(self, (0, self.screen_height), ["Attack", "Defend", "Item", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE"], pointer=Graphic([self.graphics.battery], [0]))
         self.game_objects[State.STATE_GAME_BATTLE].append(self.menu_battle)
+
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
 
