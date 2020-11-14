@@ -33,3 +33,4 @@ class Graphics:
         self.wrench = pygame.image.load(os.path.join('graphics', 'wrench.png')).convert_alpha()
         self.battery = pygame.image.load(os.path.join('graphics', 'battery.png')).convert_alpha()
         self.jammer = pygame.image.load(os.path.join('graphics', 'jammer.png')).convert_alpha()
+        self.dish = pygame.image.load(os.path.join('graphics', 'dish.png')).convert_alpha()
