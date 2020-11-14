@@ -2,6 +2,9 @@ import pygame
 from object import Object
 from event import Event
 from inventory import Inventory
+from wrench import Wrench
+from graphics import Graphics
+from graphic import Graphic
 
 class Player(Object):
     inventory = False
@@ -12,6 +15,8 @@ class Player(Object):
         super().__init__(game, position, size, graphic)
 
         self.inventory = Inventory(100)
+        graphics = Graphics()
+        self.inventory.add_item(Wrench(weight=10, graphic=Graphic([graphics.wrench], [0])))
 
     def update(self):
         super().update()

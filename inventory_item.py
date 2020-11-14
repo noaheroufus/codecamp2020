@@ -6,8 +6,9 @@ class InventoryItem:
     weight = 0
     graphic = False
 
-    def __init__(self, name="GenericItem", weight=0, graphic=False):
+    def __init__(self, name="GenericItem", size=(10,10), weight=0, graphic=False):
         self.name = name
+        self.size = size
         self.weight = weight
         self.graphic = graphic
 
@@ -24,7 +25,7 @@ class InventoryItem:
 
         if self.graphic and surface:
             scaled = pygame.transform.scale(self.graphic.graphics[0], self.size)
-            surface.blit(scaled, (0,0))
+            surface.blit(scaled, (16,8))
         else:
             rect = pygame.Surface(self.size)
             rect.fill((255,255,255))
