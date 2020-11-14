@@ -10,6 +10,7 @@ class Canvas:
         self.surface = pygame.Surface(self.game.screen_size)
     
     def render(self):
+        self.surface.fill((100,100,100))
         if self.game.state.get_state() == State.STATE_GAME_MENU:
             self.surface.fill((100,100,100))
             ## TODO: Add menu text
