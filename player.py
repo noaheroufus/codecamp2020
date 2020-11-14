@@ -32,13 +32,13 @@ class Player(Object):
     def handle_event(self, event):
         if event.type == Event.EVENT_KEY_PRESSED:
             if event.key == pygame.K_RIGHT:
-                self.set_velocity(1, 0)
+                self.jump_right()
             if event.key == pygame.K_DOWN:
-                self.set_velocity(0, 1)
+                self.jump_down()
             if event.key == pygame.K_LEFT:
-                self.set_velocity(-1, 0)
+                self.jump_left()
             if event.key == pygame.K_UP:
-                self.set_velocity(0, -1)
+                self.jump_up()
             if event.key == pygame.K_SPACE:
                 self.start_climbing()
             
@@ -67,3 +67,20 @@ class Player(Object):
     def start_climbing(self):
         self.graphic.graphics = [self.game.graphics.player_hang]
         self.graphic.times = [1]
+    def jump_down(self):
+        self.graphic.graphics = [self.game.graphics.player_hang]
+        self.graphic.times = [1]
+        self.set_velocity(0, 1)
+    def jump_up(self):
+        self.graphic.graphics = [self.game.graphics.player_hang_jump]
+        self.graphic.times = [1]
+        self.set_velocity(0, -1)
+    def jump_left(self):
+        self.graphic.graphics = [self.game.graphics.player_hang_jump_left]
+        self.graphic.times = [1]
+        self.set_velocity(-1, 0)
+    def jump_right(self):
+        self.graphic.graphics = [self.game.graphics.player_hang_jump_right]
+        self.graphic.times = [1]
+        self.set_velocity(1, 0)
+
