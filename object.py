@@ -31,9 +31,9 @@ class Object:
     
     def render(self):
         if self.graphic:
-            self.graphic.render(self.game.canvas.surface, self.position)
+            scaled = pygame.transform.scale(self.graphic.graphics[0], self.size)
+            self.game.canvas.surface.blit(scaled, self.position)
         else:
-            pygame.draw.rect(self.game.canvas.surface, (255,255,255), pygame.Rect(
-                self.position[0], self.position[1],
-                self.position[0]+self.size[0], self.position[1]+self.size[1],
-            ))
+            rect = pygame.Surface(self.size)
+            rect.fill((255,255,255))
+            self.game.canvas.surface.blit(rect, (0,0))
