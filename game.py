@@ -13,6 +13,7 @@ import random
 from random import randint
 from menu import Menu
 from text import Text
+import math
 
 class Game:
     sprite_size = sprite_width, sprite_height = 32, 32
@@ -48,17 +49,15 @@ class Game:
         for i in range(7):
             cloudtype = randint(0,2)
             types = [self.graphics.cloud_1, self.graphics.cloud_2, self.graphics.cloud_3]
-            cloud = Object(self, (randint(0, self.screen_width),randint(0, 170)), (24,24), Graphic([types[cloudtype]], [0]))
-            self.clouds.append(cloud)
+            cloud = Object(self, (randint(0, self.screen_width),randint(0, self.screen_height - 75)), (24,24), Graphic([types[cloudtype]], [0]))
             cloud.set_velocity(random.uniform(1, 1.5), 0)
+            self.clouds.append(cloud)
             self.game_objects[State.STATE_GAME_CLIMB].append(cloud)
+
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
         self.game_objects[State.STATE_GAME_OVER].append(self.game_over)
-        self.game_objects[State.STATE_GAME_MENU].append(self.title_screen)
-        self.game_objects[State.STATE_GAME_CLIMB].append(self.background)
-        self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.ladder)
 
         timer_lengths = []
@@ -84,7 +83,7 @@ class Game:
 
         for cloud in self.clouds:
             if cloud.position[0] > self.screen_width:
-                cloud.position = (-16, randint(0, self.screen_height))
+                cloud.position = (-16, randint(0, self.screen_height - 75))
                 
     def render(self):
         self.canvas.render()
