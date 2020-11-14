@@ -32,3 +32,16 @@ Every climb to the next level in tells more than the last. Don't miss the Pacakg
 
 ###### Created By: Noah, Keith, Brandon, Brock
 
+
+
+
+
+###| Introduction |
+Welcome to **InfoWest Tower Security**!
+Press *SpaceBar* to Start the Game!
+	####(Summary)
+	This is a game that has *No End*, Only a Beginning...
+
+	There are a multitude of challenges that you will endure on your adventure up the Tower, it will 	only be a matter of time      before you rely on packages and upgrade stations for your survival. 	You are the only one who can take care of the threat,   you are the only one who can protect the 	tower, You are **InfoWest Tower Security**!
+
+
