@@ -7,6 +7,7 @@ from battery import Battery
 from jammer import Jammer
 from dish import Dish
 from graphic import Graphic
+from state import State
 
 class Player(Object):
     inventory = False
@@ -45,24 +46,22 @@ class Player(Object):
         if item:
             item.render(self.game, self.position)
 
-    def move(self):
-        if self.hanging:
-            # Move
-            print("Should move")
-
     def handle_event(self, event):
-        if event.type == Event.EVENT_KEY_PRESSED:
-            if self.hanging:
-                if event.key == pygame.K_RIGHT:
-                    self.jump_right()
-                if event.key == pygame.K_DOWN:
-                    self.jump_down()
-                if event.key == pygame.K_LEFT:
-                    self.jump_left()
-                if event.key == pygame.K_UP:
-                    self.jump_up()
-            if event.key == pygame.K_SPACE:
-                self.start_climbing()
+        if event.type == pygame.KEYDOWN:
+            if self.game.state.get_state() == State.STATE_GAME_CLIMB:
+                if self.hanging:
+                    if event.key == pygame.K_RIGHT:
+                        self.jump_right()
+                    if event.key == pygame.K_DOWN:
+                        self.jump_down()
+                    if event.key == pygame.K_LEFT:
+                        self.jump_left()
+                    if event.key == pygame.K_UP:
+                        self.jump_up()
+            elif self.game.state == State.STATE_GAME_BATTLE:
+                if self.acting:
+                    # Matching minigame the button presses here
+                    pass
         if event.type == Event.EVENT_CHANGE_ITEM:
             self.inventory.swap()
         if event.type == Event.EVENT_USE_ITEM:
