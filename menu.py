@@ -18,6 +18,10 @@ class Menu(Object):
             self.selection += 1
             if self.selection >= len(self.options):
                 self.selection = len(self.options)-1
+        if event.key == pygame.K_UP:
+            self.selection -= 1
+            if self.selection < 0:
+                self.selection = 0
 
     def render(self):
         for i in range(self.height):
@@ -33,4 +37,4 @@ class Menu(Object):
                 elif i > 0 and i < self.height-1 and j == self.width-1: cell = self.game.graphics.menu_e
                 self.game.canvas.surface.blit(cell, (self.position[0]+(self.game.sprite_width*j), self.position[1]-(self.game.sprite_height*(i+1))))
         if self.pointer:
-            pass
+            self.pointer.render(self.game.canvas.surface, (self.position[0], self.position[1]-(self.game.sprite_height*self.height)+(self.game.sprite_height/2*self.selection)))
