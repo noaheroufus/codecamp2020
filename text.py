@@ -7,5 +7,7 @@ class Text(Object):
         self.font = pygame.font.SysFont("Bungee Inline", int(game.sprite_height/2-(game.sprite_height/10)))
         self.text = text
 
+    def get_text(self):
+        return self.text
     def render(self):
         self.game.canvas.surface.blit(self.font.render(self.text, False, (0,0,0)), self.position)

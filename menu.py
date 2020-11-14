@@ -9,7 +9,7 @@ class Menu(Object):
         self.selection = 0
         self.pointer = pointer
         self.height = int(len(options)/3)
-        if self.height < len(options)/3:
+        if self.height < len(options)/3 or self.height < 2:
             self.height += 1
         self.width = 3
         self.text_margin = self.game.sprite_height/3
@@ -35,8 +35,13 @@ class Menu(Object):
             if self.selection < 0:
                 self.selection = 0
         if event.key == pygame.K_SPACE:
-            if self.options[self.selection] == "Defend":
+            if self.options[self.selection].get_text() == "Attack":
+                if len(self.game.turn_counter.enemies) > 0:
+                    self.game.player.attack(self.game.turn_counter.enemies[0])
+            if self.options[self.selection].get_text() == "Defend":
                 self.game.player.defending = True
+            if self.options[self.selection].get_text() == "Item":
+                pass
             self.game.turn_counter.turn_advance()
 
     def render(self):

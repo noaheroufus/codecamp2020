@@ -15,6 +15,7 @@ from menu import Menu
 from text import Text
 from turn_counter import TurnCounter
 import math
+from enemy import Enemy
 
 class Game:
     sprite_size = sprite_width, sprite_height = 32, 32
@@ -40,6 +41,7 @@ class Game:
         self.timer = Timer()
 
         self.turn_counter = TurnCounter()
+        self.game_objects[State.STATE_GAME_BATTLE].append(self.turn_counter)
 
         # === Game Objects ===
         self.title_screen = Object(self, (0,0), self.screen_size, Graphic([self.graphics.title_screen], [0]))
@@ -69,7 +71,7 @@ class Game:
         self.action_timer = ActionTimer(self, (0,0), self.sprite_size, Graphic([self.graphics.timer_face], [0]), Graphic([self.graphics.timer_needle_n, self.graphics.timer_needle_ne, self.graphics.timer_needle_e, self.graphics.timer_needle_se, self.graphics.timer_needle_s, self.graphics.timer_needle_sw, self.graphics.timer_needle_w, self.graphics.timer_needle_nw], timer_lengths))
         self.game_objects[State.STATE_GAME_CLIMB].append(self.action_timer)
 
-        self.menu_battle = Menu(self, (0, self.screen_height), ["Attack", "Defend", "Item", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE"], pointer=Graphic([self.graphics.battery], [0]))
+        self.menu_battle = Menu(self, (0, self.screen_height), ["Attack", "Defend", "Item"], pointer=Graphic([self.graphics.menu_arrow], [0]))
         self.game_objects[State.STATE_GAME_BATTLE].append(self.menu_battle)
 
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
@@ -113,6 +115,9 @@ class Game:
             self.player.graphic.graphics = [self.graphics.player_idle]
             self.player.graphic.times = [1]
             self.player.position = (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height)
+            self.turn_counter.enemies = [Enemy(self, ((self.screen_width/2)-(self.sprite_width/2), self.sprite_height), (32,32), 10, 10, Graphic([self.graphics.enemy_bug_1], [0]))]
+            for e in self.turn_counter.enemies:
+                self.game_objects[State.STATE_GAME_BATTLE].append(e)
         if state == State.STATE_GAME_CLIMB:
             self.ladder.__init__(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
             self.player.set_health(100)

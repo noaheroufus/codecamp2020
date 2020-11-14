@@ -31,6 +31,7 @@ class Player(Object):
         self.previous_rung = (0,0)
 
         self.defending = False
+        self.jamming = False
 
     def update(self):
         super().update()
@@ -83,6 +84,7 @@ class Player(Object):
         if event.type == Event.EVENT_RESET:
             if event.machine == TurnCounter.MACHINE_TURN_COUNTER:
                 self.defending = False
+                self.jamming = False
 
             
     def get_health(self):
@@ -133,3 +135,12 @@ class Player(Object):
         self.graphic.times = [1]
         self.set_velocity(1, 0)
         self.hanging = False
+
+    def attack(self, other):
+        other.damage(self.inventory.get_active_item().weight)
+    def damage(self, weight):
+        if self.armour > 0:
+            new_armour = self.get_armour() - weight
+            if self.armour > new_armour: self.armour = new_armour
+        else:
+            self.health -= weight
