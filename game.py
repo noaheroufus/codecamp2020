@@ -10,6 +10,7 @@ from timer import Timer
 from action_timer import ActionTimer
 from ladder import Ladder
 from menu import Menu
+from text import Text
 
 class Game:
     sprite_size = sprite_width, sprite_height = 32, 32
@@ -49,7 +50,7 @@ class Game:
         self.action_timer = ActionTimer(self, (0,0), self.sprite_size, Graphic([self.graphics.timer_face], [0]), Graphic([self.graphics.timer_needle_n, self.graphics.timer_needle_ne, self.graphics.timer_needle_e, self.graphics.timer_needle_se, self.graphics.timer_needle_s, self.graphics.timer_needle_sw, self.graphics.timer_needle_w, self.graphics.timer_needle_nw], timer_lengths))
         self.game_objects[State.STATE_GAME_CLIMB].append(self.action_timer)
 
-        self.menu_battle = Menu(self, (0, self.screen_height-self.sprite_height), ["Attack", "Defend", "Item"], background=Graphic([self.graphics.menu], [0]))
+        self.menu_battle = Menu(self, (0, self.screen_height), ["Attack", "Defend", "Item", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE", "FLEE"], pointer=Graphic([self.graphics.battery], [0]))
         self.game_objects[State.STATE_GAME_BATTLE].append(self.menu_battle)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
