@@ -9,6 +9,7 @@ from state import State
 from timer import Timer
 from action_timer import ActionTimer
 from ladder import Ladder
+from menu import Menu
 
 class Game:
     sprite_size = sprite_width, sprite_height = 32, 32
@@ -50,6 +51,9 @@ class Game:
 
         self.ladder = Ladder(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
         self.game_objects[State.STATE_GAME_CLIMB].append(self.ladder)
+
+        self.menu_battle = Menu(self, (0, self.screen_height-self.sprite_height), ["Attack", "Defend", "Item"], background=Graphic([self.graphics.menu], [0]))
+        self.game_objects[State.STATE_GAME_BATTLE].append(self.menu_battle)
         self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
 
@@ -81,32 +85,19 @@ class Game:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
-        
-        if keys[pygame.K_RIGHT]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_RIGHT))
-        if keys[pygame.K_DOWN]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_DOWN))
-        if keys[pygame.K_LEFT]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_LEFT))
-        if keys[pygame.K_UP]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_UP))
-        if keys[pygame.K_SPACE]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_SPACE))
-        if keys[pygame.K_q]:
-            pygame.event.post(pygame.event.Event(Event.EVENT_KEY_PRESSED, key=pygame.K_q))
 
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-            if event.type == Event.EVENT_KEY_PRESSED:
-                if event.key == pygame.K_SPACE:
-                    if self.state.get_state() != State.STATE_GAME_CLIMB:
-                        self.state.set_state(State.STATE_GAME_CLIMB)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_ITEM, {}))
                 if event.key == pygame.K_SPACE:
-                    if self.state.get_state() != State.STATE_GAME_MENU and self.state.get_state() != State.STATE_GAME_OVER:
+                    if self.state.get_state() == State.STATE_GAME_MENU:
+                        self.state.set_state(State.STATE_GAME_BATTLE)
+                    elif self.state.get_state() != State.STATE_GAME_MENU and self.state.get_state() != State.STATE_GAME_OVER:
                         pygame.event.post(pygame.event.Event(Event.EVENT_USE_ITEM, {}))
+                if self.state.get_state() == State.STATE_GAME_BATTLE:
+                    self.menu_battle.handle_event(event)
             self.player.handle_event(event)
