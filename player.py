@@ -1,3 +1,4 @@
+import pygame
 from object import Object
 from event import Event
 from inventory import Inventory
@@ -29,16 +30,17 @@ class Player(Object):
             # Move
             Print("Should move")
     def handle_event(self, event):
-        if event.type == Event.EVENT_PLAYER_MOVE_RIGHT:
-            self.set_velocity(1, 0)
-        if event.type == Event.EVENT_PLAYER_MOVE_DOWN:
-            self.set_velocity(0, 1)
-        if event.type == Event.EVENT_PLAYER_MOVE_LEFT:
-            self.set_velocity(-1, 0)
-        if event.type == Event.EVENT_PLAYER_MOVE_UP:
-            self.set_velocity(0, -1)
-        if event.type == Event.EVENT_SPACE:
-            self.start_climbing()
+        if event.type == Event.EVENT_KEY_PRESSED:
+            if event.key == pygame.K_RIGHT:
+                self.set_velocity(1, 0)
+            if event.key == pygame.K_DOWN:
+                self.set_velocity(0, 1)
+            if event.key == pygame.K_LEFT:
+                self.set_velocity(-1, 0)
+            if event.key == pygame.K_UP:
+                self.set_velocity(0, -1)
+            if event.key == pygame.K_SPACE:
+                self.start_climbing()
             
     def get_health(self):
         return self.health
