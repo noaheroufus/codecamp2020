@@ -18,3 +18,10 @@ class Ladder(Object):
             for j in range(len(self.cells[i])):
                 #print("Rendering cell at", j, ",", i)
                 self.cells[i][j].render()
+
+    def convert_to_ladder_coords(self, position):
+        ladder_x = int(position[0]/self.game.sprite_width)-1
+        ladder_y = int(position[1]/self.game.sprite_height)
+        return (ladder_x, ladder_y)
+    def in_range(self, coords):
+        return coords[1] >= 0 and coords[1] < len(self.cells) and coords[0] >= 0 and coords[0] < len(self.cells[coords[1]])

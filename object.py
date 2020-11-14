@@ -35,5 +35,7 @@ class Object:
             rect.fill((255,255,255))
             self.game.canvas.surface.blit(rect, (0,0))
 
-    def colliding(self, other):
-        pass
+    def colliding(self, other, distance):
+        dx = other.position[0] - self.position[0]
+        dy = other.position[1] - self.position[1]
+        return (dx * dx) + (dy * dy) <= distance * distance
