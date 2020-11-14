@@ -3,6 +3,8 @@ from object import Object
 from event import Event
 from inventory import Inventory
 from wrench import Wrench
+from battery import Battery
+from jammer import Jammer
 from graphic import Graphic
 
 class Player(Object):
@@ -18,6 +20,8 @@ class Player(Object):
 
         self.inventory = Inventory(100)
         self.inventory.add_item(Wrench(weight=10, graphic=Graphic([game.graphics.wrench], [0])))
+        self.inventory.add_item(Battery(weight=10, graphic=Graphic([game.graphics.battery], [0])))
+        self.inventory.add_item(Jammer(weight=10, graphic=Graphic([game.graphics.jammer], [0])))
         
         self.previous_rung = (0,0)
 
@@ -43,6 +47,7 @@ class Player(Object):
         if self.hanging:
             # Move
             print("Should move")
+
     def handle_event(self, event):
         if event.type == Event.EVENT_KEY_PRESSED:
             if self.hanging:
@@ -56,6 +61,8 @@ class Player(Object):
                     self.jump_up()
             if event.key == pygame.K_SPACE:
                 self.start_climbing()
+        if event.type == Event.EVENT_CHANGE_ITEM:
+            self.inventory.swap()
             
     def get_health(self):
         return self.health
@@ -84,6 +91,7 @@ class Player(Object):
     def hang(self):
         self.graphic.graphics = [self.game.graphics.player_hang]
         self.graphic.times = [1]
+
     def jump_down(self):
         self.graphic.graphics = [self.game.graphics.player_hang]
         self.graphic.times = [1]

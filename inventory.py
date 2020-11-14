@@ -24,6 +24,12 @@ class Inventory:
         else:
             return False
 
+    def swap(self):
+        if self.active_item+1 < len(self.items):
+            self.active_item+=1
+        else:
+            self.active_item=0
+
     def get_weight(self):
         weight = 0
         for item in self.items:
