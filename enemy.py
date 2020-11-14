@@ -13,7 +13,9 @@ class Enemy(Object):
         self.defending = False
 
     def get_armour(self):
-        if self.defending: armour = self.armour + 20
+        if self.defending:
+            armour = self.armour + 20
+            self.defending = False
         else: armour = self.armour
         return armour
 

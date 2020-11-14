@@ -137,7 +137,7 @@ class Game:
             self.player.graphic.times = [1]
             self.player.position = (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height)
             self.player.floor+=1
-            self.turn_counter.enemies = [Enemy(self, ((self.screen_width/2)-(self.sprite_width/2), self.sprite_height), (32,32), 10, 10, Graphic([self.graphics.enemy_bug_1], [0]))]
+            self.turn_counter.enemies = [Enemy(self, ((self.screen_width/2)-(self.sprite_width/2), self.sprite_height), (32,32), 100, 50, Graphic([self.graphics.enemy_bug_1], [0]))]
             for e in self.turn_counter.enemies:
                 self.game_objects[State.STATE_GAME_BATTLE].append(e)
         if state == State.STATE_GAME_CLIMB:
