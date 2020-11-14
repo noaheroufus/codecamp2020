@@ -81,6 +81,21 @@ class Game:
         if keys[pygame.K_ESCAPE]:
             pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
 
+    def new_state(self, state):
+        self.state.set_state(state)
+        if state == State.STATE_GAME_BATTLE:
+            self.player.velocity=[0,0]
+            self.player.graphic.graphics = [self.graphics.player_idle]
+            self.player.graphic.times = [1]
+            self.player.position = (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height)
+        if state == State.STATE_GAME_CLIMB:
+            self.ladder.__init__(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
+            self.player.set_health(100)
+            self.player.previous_rung = (0,0)
+            self.player.velocity = (0,0)
+            self.player.position = (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height)
+
+
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -92,11 +107,6 @@ class Game:
                     if self.state.get_state() == State.STATE_GAME_MENU:
                         pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_CLIMB))
                     if self.state.get_state() == State.STATE_GAME_OVER:
-                        self.ladder.__init__(self, int(self.screen_width/self.sprite_width), int(self.screen_height/self.sprite_height), (0,0))
-                        self.player.set_health(100)
-                        self.player.previous_rung = (0,0)
-                        self.player.velocity = (0,0)
-                        self.player.position = (((self.screen_width/self.sprite_width)/2)*self.sprite_width, self.screen_height-self.sprite_height)
                         pygame.event.post(pygame.event.Event(Event.EVENT_CHANGE_STATE, state=State.STATE_GAME_CLIMB))
                     elif self.state.get_state() != State.STATE_GAME_MENU and self.state.get_state() != State.STATE_GAME_OVER:
                         pygame.event.post(pygame.event.Event(Event.EVENT_USE_ITEM, {}))

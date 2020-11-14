@@ -42,6 +42,6 @@ class Canvas:
                 if self.transition_surface.get_alpha() < 255:
                     self.transition_surface.set_alpha(self.transition_surface.get_alpha()+5)
                 else:
-                    self.game.state.set_state(self.transition_new_state)
+                    self.game.new_state(self.transition_new_state)
                     self.transition_toggle = True
             self.game.screen.blit(self.transition_surface, (0,0))
