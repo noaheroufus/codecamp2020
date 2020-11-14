@@ -32,15 +32,15 @@ class Game:
         self.timer = Timer()
 
         # === Game Objects ===
-        self.player = Player(self, (self.screen_width/2, self.screen_height/2), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[10, 10, 10]))
-        self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
-        self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
-        self.background = Object(self, (0,0), self.screen_size, Graphic([self.graphics.background], [0]))
-        self.game_objects.append(self.background)
-        self.game_objects.append(self.player)
         self.title_screen = Object(self, (0,0), self.screen_size, Graphic([self.graphics.title_screen], [0]))
+        self.background = Object(self, (0,0), self.screen_size, Graphic([self.graphics.background], [0]))
+        self.player = Player(self, (self.screen_width/2, self.screen_height/2), (32,32), Graphic([self.graphics.player_walk_0, self.graphics.player_walk_1, self.graphics.player_walk_2],[10, 10, 10]))
         self.game_objects[State.STATE_GAME_MENU].append(self.title_screen)
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.background)
+        self.game_objects[State.STATE_GAME_CLIMB].append(self.player)
         self.game_objects[State.STATE_GAME_BATTLE].append(self.background)
+        self.game_objects[State.STATE_GAME_BATTLE].append(self.player)
+
         timer_lengths = []
         for i in range(self.timer.max):
             timer_lengths.append(self.timer.max/8)
